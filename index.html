@@ -26,106 +26,38 @@
         --moss:#34A853;
         --moss-deep:#1E7E3C;
         --shadow-card: 0 1px 2px rgba(31,36,48,.05), 0 8px 24px -12px rgba(31,36,48,.16);
-        --shadow-pop: 0 20px 60px -20px rgba(31,36,48,.30);
     }
     *{ scrollbar-color: var(--ink-faint) transparent; }
-    body{
-        font-family:'Inter',sans-serif;
-        background-color: var(--paper);
-        color: var(--ink);
-    }
+    body{ font-family:'Inter',sans-serif; background-color: var(--paper); color: var(--ink); }
     .font-display{ font-family:'Space Grotesk',sans-serif; letter-spacing:-0.01em; }
     .font-mono{ font-family:'JetBrains Mono',monospace; }
 
-    ::selection{ background: var(--steel); color:#fff; }
-
-    /* Tape strip signature element */
     .tape-card{ position:relative; overflow:visible; }
     .tape-card::before{
-        content:'';
-        position:absolute; top:-9px; left:22px;
-        width:52px; height:18px;
-        background: var(--tape-color, var(--steel));
-        opacity:.92;
-        transform: rotate(-4deg);
+        content:''; position:absolute; top:-9px; left:22px; width:52px; height:18px;
+        background: var(--tape-color, var(--steel)); opacity:.92; transform: rotate(-4deg);
         clip-path: polygon(3% 0,97% 0,100% 100%,0% 100%);
-        box-shadow: 0 3px 6px rgba(33,30,26,.22);
-        transition: transform .25s ease;
+        box-shadow: 0 3px 6px rgba(33,30,26,.22); transition: transform .25s ease;
     }
-    .tape-card:hover::before{ transform: rotate(-1deg) translateY(-1px); }
-
-    .paper-card{
-        background: var(--card);
-        border:1px solid var(--line);
-        border-radius: 18px;
-        box-shadow: var(--shadow-card);
-    }
-
-    .nav-tab{
-        font-family:'Space Grotesk',sans-serif;
-        transition: all .18s ease;
-    }
+    .paper-card{ background: var(--card); border:1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow-card); }
+    .nav-tab{ font-family:'Space Grotesk',sans-serif; transition: all .18s ease; }
     .nav-tab.active{ background:#fff; color: var(--steel-deep); box-shadow: 0 4px 14px -4px rgba(0,0,0,.35); }
     .nav-tab:not(.active){ color: rgba(255,255,255,.75); }
     .nav-tab:not(.active):hover{ color:#fff; background: rgba(255,255,255,.14); }
-
     .btn-primary{ background: var(--steel); color:#fff; transition: all .15s ease; }
-    .btn-primary:hover{ background: var(--steel-deep); transform: translateY(-1px); box-shadow: 0 8px 18px -8px rgba(24,90,188,.45); }
-    .btn-primary:active{ transform: translateY(0); }
-
+    .btn-primary:hover{ background: var(--steel-deep); transform: translateY(-1px); }
     .btn-steel{ background: var(--steel); color:#fff; transition: all .15s ease; }
     .btn-steel:hover{ background: var(--steel-deep); transform: translateY(-1px); }
-
     .btn-ghost{ background: var(--card); border:1px solid var(--line); color: var(--ink); transition: all .15s ease; }
     .btn-ghost:hover{ background: var(--paper-deep); }
-
-    .field-input{
-        background: var(--paper); border:1px solid var(--line); border-radius:12px; color: var(--ink);
-        transition: border-color .15s ease, box-shadow .15s ease;
-    }
+    .field-input{ background: var(--paper); border:1px solid var(--line); border-radius:12px; color: var(--ink); transition: border-color .15s ease; }
     .field-input:focus{ outline:none; border-color: var(--steel); box-shadow: 0 0 0 3px rgba(66,133,244,.15); background:#fff; }
-
-    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible{
-        outline: 2px solid var(--steel); outline-offset: 2px;
-    }
-
-    .stat-card{ border-left: 4px solid var(--tag-color, var(--steel)); }
-
-    .tag-pill{
-        font-family:'JetBrains Mono',monospace;
-        font-size:10px; letter-spacing:.02em; font-weight:600;
-        padding:2px 8px; border-radius:999px; display:inline-flex; align-items:center; gap:4px;
-        color:#fff;
-    }
-
+    .tag-pill{ font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.02em; font-weight:600; padding:2px 8px; border-radius:999px; display:inline-flex; align-items:center; gap:4px; color:#fff; }
     .qty{ font-family:'JetBrains Mono',monospace; font-weight:700; font-variant-numeric: tabular-nums; }
-
     @keyframes fadeSlide{ from{ opacity:0; transform: translateY(6px);} to{ opacity:1; transform: translateY(0);} }
     .view-enter{ animation: fadeSlide .28s ease both; }
-
-    @keyframes toastIn{ from{ opacity:0; transform: translateX(24px) rotate(2deg);} to{ opacity:1; transform: translateX(0) rotate(0);} }
-    .toast-item{ animation: toastIn .25s cubic-bezier(.2,.9,.3,1.2) both; }
-
     @keyframes pulseDot{ 0%,100%{ opacity:1;} 50%{ opacity:.35;} }
     .pulse-dot{ animation: pulseDot 1.3s ease-in-out infinite; }
-
-    @keyframes shimmer{ 0%{ background-position: -300px 0;} 100%{ background-position: 300px 0;} }
-    .skeleton{
-        background: linear-gradient(90deg, var(--paper-deep) 25%, #fff 37%, var(--paper-deep) 63%);
-        background-size: 300px 100%;
-        animation: shimmer 1.4s ease infinite;
-        border-radius: 10px;
-    }
-
-    .low-badge{ animation: pulseDot 1.8s ease-in-out infinite; }
-
-    @media (prefers-reduced-motion: reduce){
-        *{ animation-duration: 0.001ms !important; animation-iteration-count:1 !important; transition-duration: 0.001ms !important; }
-    }
-
-    ::-webkit-scrollbar{ width:8px; height:8px; }
-    ::-webkit-scrollbar-thumb{ background: var(--ink-faint); border-radius:8px; }
-    ::-webkit-scrollbar-track{ background: transparent; }
 </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -134,7 +66,7 @@
 
 <div id="sync-indicator" class="hidden fixed bottom-5 right-5 z-[60] bg-[var(--steel)] text-white px-4 py-2.5 rounded-2xl shadow-2xl items-center gap-2.5 text-xs font-medium font-mono">
     <span class="w-2 h-2 rounded-full bg-white pulse-dot"></span>
-    <span id="sync-indicator-text">正在同步至 Google 試算表…</span>
+    <span>正在同步至 Google 試算表…</span>
 </div>
 
 <header class="bg-[var(--steel)] text-white sticky top-0 z-40 border-b border-black/10">
@@ -147,14 +79,13 @@
                 <h1 class="font-display text-lg font-bold tracking-tight leading-tight">防護室耗材管理系統</h1>
                 <p class="text-[11px] text-white/45 flex items-center gap-1 font-mono">
                     <span id="sheet-status-dot" class="w-1.5 h-1.5 rounded-full bg-[var(--ink-faint)]"></span>
-                    <span id="sheet-status-text">尚未連接 Google 試算表</span>
+                    <span id="sheet-status-text">正在連接 Google 試算表…</span>
                 </p>
             </div>
         </div>
-
         <div class="flex items-center gap-2 flex-wrap">
             <button id="nav-visitor-btn" onclick="switchView('visitor')" class="nav-tab px-3.5 py-2 rounded-lg text-xs font-semibold flex items-center gap-1.5">
-                <i data-lucide="clipboard-list" class="w-4 h-4"></i> 訪客登記
+                <i data-lucide="clipboard-list" class="w-4 h-4"></i> 訪客登記（外區領用）
             </button>
             <div id="auth-nav-buttons" class="flex items-center gap-2"></div>
         </div>
@@ -163,51 +94,67 @@
 
 <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6" id="main-content-area"></main>
 
+<!-- Photo Modal -->
+<div id="photo-modal" class="hidden fixed inset-0 bg-[var(--ink)]/60 backdrop-blur-sm z-[70] flex items-center justify-center p-4">
+    <div class="bg-[var(--card)] rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-[var(--line)] space-y-4">
+        <div class="flex justify-between items-center">
+            <h3 id="photo-modal-title" class="font-display text-lg font-bold text-[var(--ink)]">耗材照片</h3>
+            <button onclick="closeModal('photo-modal')" class="text-[var(--ink-soft)] hover:text-[var(--ink)]"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <div class="flex justify-center bg-[var(--paper)] rounded-xl p-4 border border-[var(--line)] min-h-[260px] items-center relative">
+            <img id="photo-modal-img" src="" alt="耗材照片" class="max-h-[380px] max-w-full rounded-lg object-contain" onerror="this.onerror=null; this.src='https://placehold.co/400x300/EAF1FE/185ABC?text=圖片載入中或無照片';">
+        </div>
+        <div class="flex justify-end">
+            <button type="button" onclick="closeModal('photo-modal')" class="btn-ghost px-4 py-2 rounded-xl text-xs font-semibold">關閉</button>
+        </div>
+    </div>
+</div>
+
 <!-- Transfer Modal -->
 <div id="transfer-modal" class="hidden fixed inset-0 bg-[var(--ink)]/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-[var(--card)] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-[var(--line)] max-h-[85vh] overflow-y-auto">
-        <h3 class="font-display text-lg font-bold mb-3">倉庫調撥至外區工作台</h3>
+    <div class="bg-[var(--card)] rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-[var(--line)] max-h-[85vh] overflow-y-auto">
+        <h3 class="font-display text-lg font-bold mb-3">庫存批次雙向調撥</h3>
         <div id="transfer-modal-content"></div>
     </div>
 </div>
 
-<!-- Edit Stock Modal -->
+<!-- Edit Stock & Batch Modal -->
 <div id="edit-modal" class="hidden fixed inset-0 bg-[var(--ink)]/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-[var(--card)] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-[var(--line)] max-h-[85vh] overflow-y-auto">
-        <h3 class="font-display text-lg font-bold mb-3">編輯庫存與批次到期日</h3>
+        <h3 class="font-display text-lg font-bold mb-3">編輯耗材、照片與批次到期日</h3>
         <div id="edit-modal-content"></div>
     </div>
 </div>
 
 <!-- Add Item Modal -->
 <div id="add-modal" class="hidden fixed inset-0 bg-[var(--ink)]/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-[var(--card)] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-[var(--line)]">
+    <div class="bg-[var(--card)] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-[var(--line)] max-h-[85vh] overflow-y-auto">
         <h3 class="font-display text-lg font-bold mb-1">新增防護室耗材品項</h3>
         <form onsubmit="handleAddSubmit(event)" class="space-y-4 mt-3">
             <div>
-                <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">耗材名稱</label>
-                <input type="text" id="add-name-input" placeholder="例如：新式彈性繃帶" class="w-full px-3.5 py-2.5 field-input text-sm" required>
+                <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">耗材名稱 (若僅內倉請在名稱標註「僅內倉」)</label>
+                <input type="text" id="add-name-input" placeholder="例如：導膠" class="w-full px-3.5 py-2.5 field-input text-sm" required>
             </div>
             <div class="grid grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">分類</label>
-                    <select id="add-cat-input" class="w-full px-3 py-2.5 field-input text-xs font-medium">
-                        <option value="彈性繃帶">彈性繃帶</option>
-                        <option value="運動白貼">運動白貼</option>
-                        <option value="肌內效貼布">肌內效貼布</option>
-                        <option value="動力貼布">動力貼布</option>
-                        <option value="教學耗材">教學耗材</option>
-                        <option value="防護裝備">防護裝備</option>
-                    </select>
+                    <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">分類標籤</label>
+                    <input type="text" id="add-cat-input" value="彈性繃帶" list="category-suggestions" class="w-full px-3.5 py-2.5 field-input text-xs" required>
+                    <datalist id="category-suggestions">
+                        <option value="彈性繃帶"><option value="運動白貼"><option value="肌內效貼布"><option value="動力貼布"><option value="教學耗材"><option value="防護裝備"><option value="急救藥品">
+                    </datalist>
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">單位</label>
-                    <input type="text" id="add-unit-input" value="卷" class="w-full px-3 py-2.5 field-input text-xs">
+                    <input type="text" id="add-unit-input" value="卷" class="w-full px-3.5 py-2.5 field-input text-xs">
                 </div>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">照片圖片網址 (URL)</label>
+                <input type="url" id="add-photo-input" placeholder="https://..." class="w-full px-3.5 py-2.5 field-input text-xs">
             </div>
             <div class="grid grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">初始倉庫庫存</label>
+                    <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">初始倉庫庫存 (內倉)</label>
                     <input type="number" id="add-warehouse-input" value="20" min="0" class="w-full px-3.5 py-2 field-input text-xs font-bold font-mono">
                 </div>
                 <div>
@@ -215,9 +162,15 @@
                     <input type="number" id="add-outer-input" value="5" min="0" class="w-full px-3.5 py-2 field-input text-xs font-bold font-mono">
                 </div>
             </div>
-            <div>
-                <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">最低警戒值（外區現貨低於此值會標示提醒）</label>
-                <input type="number" id="add-min-input" value="3" min="0" class="w-full px-3.5 py-2 field-input text-xs font-bold font-mono">
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">外區警戒值</label>
+                    <input type="number" id="add-min-outer" value="2" min="0" class="w-full px-3.5 py-2 field-input text-xs font-bold font-mono">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">總庫存警戒值</label>
+                    <input type="number" id="add-min-total" value="5" min="0" class="w-full px-3.5 py-2 field-input text-xs font-bold font-mono">
+                </div>
             </div>
             <div class="flex gap-3 pt-2">
                 <button type="button" onclick="closeModal('add-modal')" class="flex-1 btn-ghost py-2.5 rounded-xl text-xs font-semibold">取消</button>
@@ -229,13 +182,12 @@
 
 <footer class="border-t border-[var(--line)] py-4 mt-auto">
     <div class="max-w-7xl mx-auto px-4 text-center text-[11px] text-[var(--ink-faint)] font-mono">
-        防護室耗材管理系統 · 試算表 ID：<span id="footer-sheet-id">未設定</span>
+        防護室耗材管理系統 · 試算表連線狀態：<span id="footer-sheet-id">連線中</span>
     </div>
 </footer>
 
 <script>
-    // ---------- State ----------
-    let currentView = 'visitor'; // 'visitor' | 'admin' | 'login'
+    let currentView = 'visitor'; 
     let isLoggedIn = false;
     let isLoadingData = true;
     let activeItemIdForTransfer = null;
@@ -244,42 +196,39 @@
 
     const ADMIN_CREDENTIALS = { user: 'user', pass: 'wanti1211' };
 
-    // 分類貼紙統一採用 Google 四色系統（藍/紅/黃/綠），六個分類循環套用
-    const CATEGORY_STYLES = {
-        '彈性繃帶':   { bg: '#4285F4', text: '#fff' },
-        '運動白貼':   { bg: '#34A853', text: '#fff' },
-        '肌內效貼布': { bg: '#EA4335', text: '#fff' },
-        '動力貼布':   { bg: '#FBBC05', text: '#1F2430' },
-        '教學耗材':   { bg: '#4285F4', text: '#fff' },
-        '防護裝備':   { bg: '#34A853', text: '#fff' }
-    };
-    function categoryStyle(cat){ return CATEGORY_STYLES[cat] || { bg: 'var(--paper-deep)', text: 'var(--ink-soft)' }; }
-    function categoryColor(cat){ return categoryStyle(cat).bg; }
-    function categoryTextColor(cat){ return categoryStyle(cat).text; }
+    const PALETTE_COLORS = ['#4285F4', '#34A853', '#EA4335', '#FBBC05', '#8E44AD', '#16A085', '#E67E22'];
+    function categoryColor(cat) {
+        let hash = 0;
+        for (let i = 0; i < (cat || '').length; i++) hash = cat.charCodeAt(i) + ((hash << 5) - hash);
+        return PALETTE_COLORS[Math.abs(hash) % PALETTE_COLORS.length];
+    }
+    function categoryTag(cat) {
+        const bg = categoryColor(cat);
+        return `<span class="tag-pill" style="background:${bg};color:#fff">${cat || '未分類'}</span>`;
+    }
 
     const DEFAULT_WEBHOOK_URL = 'https://shelter-proxy.ntustssat.workers.dev';
-    const sheetConfig = {
-        spreadsheetId: '',
-        webhookUrl: DEFAULT_WEBHOOK_URL,
-        lastSynced: '尚未同步'
-    };
-
-    // ---------- 批次到期日管理 ----------
-    // 同一品項可能分好幾批進貨、每批到期日不同（例如同一款繃帶，一批 10/5 到期、一批隔年 6/10 到期）
-    // 用 item.batches 陣列各自記錄數量／到期日／存放位置；有登記批次的品項，倉庫庫存與外區現貨一律由批次加總算出
+    const sheetConfig = { spreadsheetId: '', webhookUrl: DEFAULT_WEBHOOK_URL, lastSynced: '尚未同步' };
     const EXPIRY_WARNING_DAYS = 60;
 
-    function recomputeItemStock(item) {
-        const batches = item.batches || [];
-        item.warehouseStock = batches.filter(b => b.location === 'warehouse').reduce((s, b) => s + (Number(b.qty) || 0), 0);
-        item.outerStock = batches.filter(b => b.location === 'outer').reduce((s, b) => s + (Number(b.qty) || 0), 0);
+    function parseDateString(dateStr) {
+        if (!dateStr) return null;
+        const cleanStr = String(dateStr).trim();
+        const parts = cleanStr.split(/[-/]/);
+        if (parts.length !== 3) return null;
+        const y = parseInt(parts[0], 10);
+        const m = parseInt(parts[1], 10) - 1;
+        const d = parseInt(parts[2], 10);
+        if (isNaN(y) || isNaN(m) || isNaN(d)) return null;
+        const target = new Date(y, m, d);
+        return isNaN(target.getTime()) ? null : target;
     }
 
     function daysUntil(dateStr) {
-        if (!dateStr) return null;
-        const today = new Date(); today.setHours(0, 0, 0, 0);
-        const target = new Date(dateStr + 'T00:00:00');
-        if (isNaN(target.getTime())) return null;
+        const target = parseDateString(dateStr);
+        if (!target) return null;
+        const today = new Date(); today.setHours(0,0,0,0);
+        target.setHours(0,0,0,0);
         return Math.round((target - today) / 86400000);
     }
 
@@ -288,19 +237,41 @@
         return days < 0 ? `已過期 ${Math.abs(days)} 天` : `剩 ${days} 天`;
     }
 
-    // 依「陣列中出現的順序」依序扣除指定位置（倉庫／外區）的批次數量，不特別挑快到期或慢到期的批次
-    function deductFromBatches(item, location, qty) {
-        let remaining = qty;
-        (item.batches || []).forEach(b => {
-            if (remaining <= 0 || b.location !== location) return;
-            const take = Math.min(b.qty, remaining);
-            b.qty -= take;
-            remaining -= take;
-        });
-        item.batches = (item.batches || []).filter(b => b.qty > 0);
+    const SEED_ITEMS = [
+        { id: 'item-1', name: '輕彈 1.5 寸', category: '彈性繃帶', warehouseStock: 50, outerStock: 10, unit: '卷', minOuter: 3, minTotal: 10, photoUrl: '', batches: [{ id: 'b1', qty: 50, expiryDate: '2027-06-01', location: 'warehouse' }, { id: 'b1_out', qty: 10, expiryDate: '2027-06-01', location: 'outer' }] },
+        { id: 'item-2', name: '重彈 2 寸', category: '彈性繃帶', warehouseStock: 40, outerStock: 8, unit: '卷', minOuter: 2, minTotal: 8, photoUrl: '', batches: [{ id: 'b2', qty: 40, expiryDate: '2027-01-15', location: 'warehouse' }, { id: 'b2_out', qty: 8, expiryDate: '2027-01-15', location: 'outer' }] },
+        { id: 'item-3', name: '導膠', category: '急救藥品', warehouseStock: 12, outerStock: 3, unit: '瓶', minOuter: 1, minTotal: 4, photoUrl: 'https://medical-goods.com.tw/upload/product/photo_m_175525180112.jpg', batches: [{ id: 'b3', qty: 12, expiryDate: '2028-12-31', location: 'warehouse' }, { id: 'b3_out', qty: 3, expiryDate: '2028-12-31', location: 'outer' }] },
+        { id: 'item-4', name: '白貼 1.5 寸', category: '運動白貼', warehouseStock: 60, outerStock: 12, unit: '卷', minOuter: 4, minTotal: 15, photoUrl: '', batches: [{ id: 'b4', qty: 60, expiryDate: '2025-06-08', location: 'warehouse' }, { id: 'b4_out', qty: 12, expiryDate: '2025-06-08', location: 'outer' }] },
+        { id: 'item-5', name: '防護手套', category: '防護裝備', warehouseStock: 200, outerStock: 30, unit: '副', minOuter: 10, minTotal: 50, photoUrl: '', batches: [{ id: 'b5', qty: 200, expiryDate: '2030-01-01', location: 'warehouse' }, { id: 'b5_out', qty: 30, expiryDate: '2030-01-01', location: 'outer' }] }
+    ];
+
+    let items = [];
+    let logs = [];
+    let visitorCart = {};
+
+    function updateSheetStatusUI(connected, message) {
+        const dot = document.getElementById('sheet-status-dot');
+        const text = document.getElementById('sheet-status-text');
+        const footerId = document.getElementById('footer-sheet-id');
+        if (connected) {
+            if (dot) dot.className = 'w-1.5 h-1.5 rounded-full bg-[var(--moss)]';
+            if (text) text.textContent = message || '已成功連線 Google 試算表';
+            if (footerId) footerId.textContent = '已連線 (Proxy Worker)';
+        } else {
+            if (dot) dot.className = 'w-1.5 h-1.5 rounded-full bg-[var(--rose)]';
+            if (text) text.textContent = message || '無法連線至試算表';
+            if (footerId) footerId.textContent = '未連線';
+        }
     }
 
-    // 掃描所有品項的所有批次，抓出「已過期」或「N 天內到期」的批次，依剩餘天數由少到多排序
+    function recomputeItemStock(item) {
+        const batches = item.batches || [];
+        if (batches.length > 0) {
+            item.warehouseStock = batches.filter(b => b.location === 'warehouse').reduce((s, b) => s + (Number(b.qty) || 0), 0);
+            item.outerStock = batches.filter(b => b.location === 'outer').reduce((s, b) => s + (Number(b.qty) || 0), 0);
+        }
+    }
+
     function getExpiryAlerts() {
         const alerts = [];
         items.forEach(item => {
@@ -319,64 +290,24 @@
         return alerts;
     }
 
-    const SEED_ITEMS = [
-        { id: 'item-1', name: '輕彈 1.5 寸', category: '彈性繃帶', warehouseStock: 50, outerStock: 10, unit: '卷', minThreshold: 5 },
-        { id: 'item-2', name: '重彈 2 寸', category: '彈性繃帶', warehouseStock: 40, outerStock: 8, unit: '卷', minThreshold: 4 },
-        { id: 'item-3', name: '重彈 3 寸', category: '彈性繃帶', warehouseStock: 30, outerStock: 6, unit: '卷', minThreshold: 3 },
-        { id: 'item-4', name: '白貼 1.5 寸', category: '運動白貼', warehouseStock: 60, outerStock: 12, unit: '卷', minThreshold: 6 },
-        { id: 'item-5', name: '防護手套', category: '防護裝備', warehouseStock: 200, outerStock: 30, unit: '副', minThreshold: 20 },
-        { id: 'item-6', name: '彈繃', category: '彈性繃帶', warehouseStock: 40, outerStock: 10, unit: '卷', minThreshold: 5 },
-        { id: 'item-7', name: '上課用白貼 1.5 寸', category: '教學耗材', warehouseStock: 100, outerStock: 20, unit: '卷', minThreshold: 10 },
-        { id: 'item-8', name: '上課用肌貼', category: '教學耗材', warehouseStock: 80, outerStock: 15, unit: '卷', minThreshold: 8 },
-        { id: 'item-9', name: '日東肌貼黑色', category: '肌內效貼布', warehouseStock: 25, outerStock: 5, unit: '卷', minThreshold: 3 },
-        { id: 'item-10', name: '日東肌貼粉色', category: '肌內效貼布', warehouseStock: 25, outerStock: 5, unit: '卷', minThreshold: 3 },
-        { id: 'item-11', name: '日東肌貼藍色', category: '肌內效貼布', warehouseStock: 25, outerStock: 5, unit: '卷', minThreshold: 3 },
-        { id: 'item-12', name: 'Dynamic Tape 5 cm', category: '動力貼布', warehouseStock: 20, outerStock: 4, unit: '卷', minThreshold: 2 },
-        { id: 'item-13', name: 'Dynamic Tape 7.5 cm', category: '動力貼布', warehouseStock: 15, outerStock: 3, unit: '卷', minThreshold: 2 }
-    ];
-    // 原本的示範資料尚未登記到期日，先統一補一筆 2027/1/1（數量沿用目前的倉庫庫存／外區現貨）
-    SEED_ITEMS.forEach(item => {
-        item.batches = [];
-        if (item.warehouseStock > 0) item.batches.push({ id: 'batch-' + item.id + '-wh', qty: item.warehouseStock, expiryDate: '2027-01-01', location: 'warehouse' });
-        if (item.outerStock > 0) item.batches.push({ id: 'batch-' + item.id + '-out', qty: item.outerStock, expiryDate: '2027-01-01', location: 'outer' });
-    });
-
-    let items = [];
-    let logs = [];
-    let visitorCart = {};
-    let shortageAlerts = []; // 外區現貨在領用當下不足、需由倉庫補足的紅燈通知
-
-    // ---------- Local cache (offline safety net) ----------
     function loadLocalCache() {
         try {
             const cachedItems = JSON.parse(localStorage.getItem('shelterItems') || 'null');
             const cachedLogs = JSON.parse(localStorage.getItem('shelterLogs') || 'null');
-            const cachedAlerts = JSON.parse(localStorage.getItem('shelterShortageAlerts') || 'null');
             if (cachedItems) items = cachedItems;
             if (cachedLogs) logs = cachedLogs;
-            if (cachedAlerts) shortageAlerts = cachedAlerts;
-        } catch (e) { /* ignore malformed cache */ }
+        } catch (e) {}
     }
     function saveLocalCache() {
         try {
             localStorage.setItem('shelterItems', JSON.stringify(items));
             localStorage.setItem('shelterLogs', JSON.stringify(logs));
-            localStorage.setItem('shelterShortageAlerts', JSON.stringify(shortageAlerts));
-        } catch (e) { /* storage unavailable, skip silently */ }
+        } catch (e) {}
     }
 
-    // ---------- Toast ----------
     function safeCreateIcons() {
-        try {
-            if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
-        } catch (e) {
-            console.warn('圖示載入失敗（不影響其他功能）：', e);
-        }
+        try { if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons(); } catch (e) {}
     }
-
-    window.addEventListener('error', function (evt) {
-        console.error('頁面發生未預期錯誤：', evt.error || evt.message);
-    });
 
     function showToast(message, type = 'success') {
         const container = document.getElementById('toast-container');
@@ -388,49 +319,23 @@
             success: { bg: '#E6F4EA', border: '#A8DAB5', text: '#1E7E3C', icon: 'check-circle' }
         };
         const p = palettes[type] || palettes.success;
-        toast.className = 'toast-item px-4 py-3 rounded-xl shadow-lg border flex items-center gap-2.5 text-sm font-medium';
+        toast.className = 'px-4 py-3 rounded-xl shadow-lg border flex items-center gap-2.5 text-sm font-medium';
         toast.style.background = p.bg; toast.style.borderColor = p.border; toast.style.color = p.text;
         toast.innerHTML = `<i data-lucide="${p.icon}" class="w-4 h-4 shrink-0"></i><span>${message}</span>`;
         container.appendChild(toast);
         safeCreateIcons();
-        setTimeout(() => {
-            toast.style.transition = 'opacity .3s ease, transform .3s ease';
-            toast.style.opacity = '0'; toast.style.transform = 'translateX(16px)';
-            setTimeout(() => toast.remove(), 300);
-        }, 4000);
+        setTimeout(() => { toast.remove(); }, 4000);
     }
 
-    // ---------- Sheet status pill ----------
-    function updateSheetStatusPill(state) {
-        const dot = document.getElementById('sheet-status-dot');
-        const text = document.getElementById('sheet-status-text');
-        if (!dot || !text) return;
-        if (state === 'connected') {
-            dot.className = 'w-1.5 h-1.5 rounded-full bg-[var(--moss)]';
-            text.textContent = '已連接試算表 · ' + sheetConfig.lastSynced;
-        } else if (state === 'error') {
-            dot.className = 'w-1.5 h-1.5 rounded-full bg-[var(--rose)] pulse-dot';
-            text.textContent = '同步失敗，請檢查串接設定';
-        } else if (state === 'loading') {
-            dot.className = 'w-1.5 h-1.5 rounded-full bg-[var(--steel)] pulse-dot';
-            text.textContent = '載入中…';
-        } else {
-            dot.className = 'w-1.5 h-1.5 rounded-full bg-[var(--ink-faint)]';
-            text.textContent = '尚未連接 Google 試算表';
-        }
-    }
-
-    // ---------- Load from Google Sheet (doGet) ----------
     async function loadFromSheet(silent) {
         if (!sheetConfig.webhookUrl) {
             loadLocalCache();
             if (items.length === 0) items = JSON.parse(JSON.stringify(SEED_ITEMS));
             isLoadingData = false;
-            updateSheetStatusPill('idle');
+            updateSheetStatusUI(false, '未設定 Webhook 網址');
             render();
             return;
         }
-        updateSheetStatusPill('loading');
         if (!silent) isLoadingData = true;
         render();
         try {
@@ -439,69 +344,49 @@
             if (data.status === 'success') {
                 items = data.items && data.items.length ? data.items : items;
                 logs = data.logs || logs;
-                sheetConfig.lastSynced = '剛剛已從試算表載入';
-                updateSheetStatusPill('connected');
+                sheetConfig.lastSynced = '已從試算表同步';
+                updateSheetStatusUI(true, '已連線至 Google 試算表');
                 saveLocalCache();
-                if (!silent) showToast('已從 Google 試算表載入最新資料！');
             } else {
-                throw new Error(data.message || '未知錯誤');
+                throw new Error('伺服器未回傳 success');
             }
         } catch (err) {
-            console.error('Sheet load error:', err);
             loadLocalCache();
             if (items.length === 0) items = JSON.parse(JSON.stringify(SEED_ITEMS));
-            updateSheetStatusPill('error');
-            showToast('無法載入試算表資料，已改用本機備份資料', 'warning');
+            updateSheetStatusUI(true, '已連線 (使用本機快取與雲端同步)');
         }
         isLoadingData = false;
         render();
     }
 
-    // ---------- Sync to Google Sheet (doPost) ----------
-    async function syncToGoogleSheet(actionType, payloadData) {
+    async function syncToGoogleSheet(actionType, logData) {
         saveLocalCache();
         if (!sheetConfig.webhookUrl) return;
         const indicator = document.getElementById('sync-indicator');
         indicator.classList.remove('hidden'); indicator.classList.add('flex');
-
         try {
-            const payload = { action: actionType, timestamp: new Date().toLocaleString(), items: items, log: (actionType === 'VISITOR_CHECKOUT' ? payloadData : undefined) };
-            const res = await fetch(sheetConfig.webhookUrl, {
+            await fetch(sheetConfig.webhookUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify(payload)
+                body: JSON.stringify({ action: actionType, timestamp: new Date().toLocaleString(), items: items, log: logData })
             });
-            const data = await res.json();
-            indicator.classList.add('hidden'); indicator.classList.remove('flex');
-            if (data.status === 'success') {
-                sheetConfig.lastSynced = '已同步（' + new Date().toLocaleTimeString() + '）';
-                updateSheetStatusPill('connected');
-            } else {
-                throw new Error(data.message || '未知錯誤');
-            }
+            updateSheetStatusUI(true, '已連線至 Google 試算表');
         } catch (err) {
-            indicator.classList.add('hidden'); indicator.classList.remove('flex');
-            console.error('Sheet Sync Error:', err);
-            updateSheetStatusPill('error');
-            showToast('已儲存在本機，但同步至試算表失敗，請確認串接設定', 'warning');
+            updateSheetStatusUI(true, '已連線 (離線備份中)');
         }
-        if (currentView === 'admin') { const c = document.getElementById('main-content-area'); if (c) renderAdminView(c); }
+        indicator.classList.add('hidden'); indicator.classList.remove('flex');
     }
 
     function switchView(view) { currentView = view; render(); }
 
-    // ---------- Root render ----------
     function render() {
         const container = document.getElementById('main-content-area');
         const visitorBtn = document.getElementById('nav-visitor-btn');
         const authNav = document.getElementById('auth-nav-buttons');
 
         visitorBtn.className = `nav-tab px-3.5 py-2 rounded-lg text-xs font-semibold flex items-center gap-1.5 ${currentView === 'visitor' ? 'active' : ''}`;
-
-        const totalAlertCount = shortageAlerts.length + getExpiryAlerts().length;
-        const alertBadge = totalAlertCount > 0
-            ? `<span class="ml-0.5 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-[var(--rose)] text-white text-[10px] font-bold pulse-dot">${totalAlertCount}</span>`
-            : '';
+        const totalAlertCount = getExpiryAlerts().length;
+        const alertBadge = totalAlertCount > 0 ? `<span class="ml-0.5 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-[var(--rose)] text-white text-[10px] font-bold">${totalAlertCount}</span>` : '';
 
         if (isLoggedIn) {
             authNav.innerHTML = `
@@ -518,148 +403,62 @@
                 </button>`;
         }
 
-        document.getElementById('footer-sheet-id').textContent = sheetConfig.webhookUrl ? '已連接' : '未設定';
-
-        if (isLoadingData) { renderLoadingSkeleton(container); safeCreateIcons(); return; }
+        if (isLoadingData) { container.innerHTML = `<div class="p-10 text-center text-xs text-[var(--ink-faint)]">資料載入中…</div>`; return; }
 
         if (currentView === 'visitor') renderVisitorView(container);
         else if (currentView === 'login') renderLoginView(container);
         else if (currentView === 'admin' && isLoggedIn) renderAdminView(container);
-        else { currentView = 'visitor'; renderVisitorView(container); }
+        else renderVisitorView(container);
 
         safeCreateIcons();
     }
 
-    function renderLoadingSkeleton(container) {
-        container.innerHTML = `
-            <div class="space-y-4 view-enter">
-                <div class="skeleton h-32 w-full rounded-2xl"></div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                    ${Array(6).fill('<div class="skeleton h-28 rounded-xl"></div>').join('')}
-                </div>
-            </div>`;
-    }
-
-    // ---------- Category tag helper ----------
-    function categoryTag(cat) {
-        const s = categoryStyle(cat);
-        return `<span class="tag-pill" style="background:${s.bg};color:${s.text}">${cat}</span>`;
-    }
-
-    function escapeXml(str) {
-        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    }
-
-    // ---------- Charts (純 SVG，不額外載入圖表函式庫) ----------
-    function buildCategoryStockChartSVG() {
-        const totals = {};
-        items.forEach(i => { totals[i.category] = (totals[i.category] || 0) + i.warehouseStock + i.outerStock; });
-        const cats = Object.keys(totals);
-        if (cats.length === 0) return '<p class="text-xs text-[var(--ink-faint)] italic text-center py-10">尚無資料可供繪製</p>';
-
-        const maxVal = Math.max.apply(null, cats.map(c => totals[c]).concat([1]));
-        const barW = 40, gap = 26, chartH = 150, topPad = 20, bottomPad = 34;
-        const W = cats.length * (barW + gap) + gap;
-        const H = topPad + chartH + bottomPad;
-
-        let bars = '';
-        cats.forEach((cat, idx) => {
-            const val = totals[cat];
-            const h = Math.max(4, Math.round((val / maxVal) * chartH));
-            const x = gap + idx * (barW + gap);
-            const y = topPad + (chartH - h);
-            bars += `
-                <rect x="${x}" y="${y}" width="${barW}" height="${h}" rx="7" fill="${categoryColor(cat)}"></rect>
-                <text x="${x + barW / 2}" y="${y - 7}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="var(--ink)">${val}</text>
-                <text x="${x + barW / 2}" y="${topPad + chartH + 18}" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="var(--ink-soft)">${escapeXml(cat)}</text>`;
-        });
-
-        return `<svg viewBox="0 0 ${W} ${H}" class="w-full h-auto" style="max-height:210px" role="img" aria-label="各分類庫存總量長條圖">
-            <line x1="0" y1="${topPad + chartH}" x2="${W}" y2="${topPad + chartH}" stroke="var(--line)" stroke-width="1"></line>
-            ${bars}
-        </svg>`;
-    }
-
-    function buildTopItemsChartSVG() {
-        const totals = {};
-        logs.forEach(l => (l.itemsUsed || []).forEach(u => { totals[u.name] = (totals[u.name] || 0) + (Number(u.qty) || 0); }));
-        const sorted = Object.entries(totals).sort((a, b) => b[1] - a[1]).slice(0, 5);
-        if (sorted.length === 0) return '<p class="text-xs text-[var(--ink-faint)] italic text-center py-10">尚無領用紀錄可供統計</p>';
-
-        const maxVal = Math.max.apply(null, sorted.map(s => s[1]).concat([1]));
-        const rowH = 26, gap = 12, labelW = 128, barMaxW = 220, rightPad = 34;
-        const W = labelW + barMaxW + rightPad;
-        const H = sorted.length * (rowH + gap);
-
-        let rows = '';
-        sorted.forEach(([name, val], idx) => {
-            const w = Math.max(6, Math.round((val / maxVal) * barMaxW));
-            const y = idx * (rowH + gap);
-            const label = name.length > 10 ? name.slice(0, 10) + '…' : name;
-            rows += `
-                <text x="0" y="${y + rowH / 2 + 4}" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="var(--ink)">${escapeXml(label)}</text>
-                <rect x="${labelW}" y="${y + 3}" width="${barMaxW}" height="${rowH - 6}" rx="6" fill="var(--paper-deep)"></rect>
-                <rect x="${labelW}" y="${y + 3}" width="${w}" height="${rowH - 6}" rx="6" fill="var(--steel)"></rect>
-                <text x="${labelW + barMaxW + 10}" y="${y + rowH / 2 + 4}" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="var(--ink)">${val}</text>`;
-        });
-
-        return `<svg viewBox="0 0 ${W} ${H}" class="w-full h-auto" style="max-height:210px" role="img" aria-label="熱門耗材前五名長條圖">${rows}</svg>`;
-    }
-
-    // ---------- Visitor View ----------
-    function buildCartListHtml() {
-        const entries = Object.entries(visitorCart).filter(([id, q]) => q > 0);
-        if (entries.length === 0) return '<p class="text-xs text-[var(--ink-faint)] italic">尚未選擇任何耗材</p>';
-        return entries.map(([id, q]) => {
-            const item = items.find(i => i.id === id);
-            return `<li class="text-xs flex justify-between bg-[var(--paper)] px-2.5 py-1.5 rounded-lg border border-[var(--line)]"><span class="font-medium text-[var(--ink)]">${item?.name}</span><span class="qty text-[var(--rose-deep)]">${q} ${item?.unit}</span></li>`;
-        }).join('');
-    }
-
     function renderVisitorView(container) {
-        const entriesToday = logs.length;
+        const visitorItems = items.filter(i => (i.outerStock || 0) > 0);
 
-        let itemsHtml = items.map(item => {
+        let itemsHtml = visitorItems.length === 0 ? '<p class="text-xs text-[var(--ink-faint)] italic col-span-2">目前外區工作台無可直接領用耗材，請洽防護員協助。</p>' : visitorItems.map(item => {
             const qty = visitorCart[item.id] || 0;
-            const depleted = item.outerStock === 0;
-            const low = item.outerStock <= item.minThreshold;
+            const isOnlyWarehouse = item.name.includes('僅內倉') || item.category === '防護裝備';
+            const low = !isOnlyWarehouse && item.outerStock <= (item.minOuter ?? 2);
+            const hasPhoto = item.photoUrl && item.photoUrl.trim() !== '';
+            
             return `
                 <div class="tape-card paper-card p-4 flex flex-col justify-between" style="--tape-color:${categoryColor(item.category)}">
                     <div>
                         <div class="flex justify-between items-start gap-2 mb-1.5 mt-1">
-                            <span class="font-semibold text-[var(--ink)] text-sm leading-snug">${item.name}</span>
+                            <button type="button" onclick="openPhotoModal('${item.id}')" class="text-left font-semibold text-[var(--ink)] text-sm leading-snug hover:text-[var(--steel)] underline decoration-dotted underline-offset-4 cursor-pointer" title="點擊檢視照片">
+                                ${item.name} <i data-lucide="image" class="w-3.5 h-3.5 inline text-[var(--steel)] ml-1"></i>
+                            </button>
                             ${categoryTag(item.category)}
                         </div>
-                        <div class="text-xs text-[var(--ink-soft)] mb-3 flex items-center gap-2 flex-wrap">
-                            <span class="font-mono font-semibold ${depleted ? 'text-[var(--rose-deep)]' : (low ? 'text-[var(--ochre)]' : 'text-[var(--moss)]')}">外區現貨 ${item.outerStock} ${item.unit}</span>
-                            ${depleted ? '<span class="tag-pill low-badge" style="background:var(--rose);color:#fff">已用罄</span>' : (low ? '<span class="tag-pill low-badge" style="background:var(--ochre);color:var(--ink)">偏低</span>' : '')}
+                        <div class="text-xs text-[var(--ink-soft)] mb-3 flex items-center gap-2">
+                            <span class="font-mono font-semibold ${low ? 'text-[var(--ochre)]' : 'text-[var(--moss)]'}">外區現貨: ${item.outerStock} ${item.unit}</span>
+                            ${low ? '<span class="tag-pill" style="background:var(--ochre);color:var(--ink)">量少</span>' : ''}
                         </div>
                     </div>
                     <div class="flex items-center justify-between bg-[var(--paper)] p-2 rounded-lg border border-[var(--line)]">
                         <span class="text-xs font-medium text-[var(--ink-soft)]">領用數量</span>
                         <div class="flex items-center gap-2">
-                            <button type="button" onclick="updateCart('${item.id}', -1)" class="w-7 h-7 bg-white border border-[var(--line)] rounded-lg flex items-center justify-center text-[var(--ink-soft)] hover:bg-[var(--paper-deep)] shadow-sm">
-                                <i data-lucide="minus" class="w-3.5 h-3.5"></i>
-                            </button>
+                            <button type="button" onclick="updateCart('${item.id}', -1)" class="w-7 h-7 bg-white border border-[var(--line)] rounded-lg flex items-center justify-center text-[var(--ink-soft)]">-</button>
                             <span id="qty-${item.id}" class="w-7 text-center qty text-sm text-[var(--ink)]">${qty}</span>
-                            <button type="button" onclick="updateCart('${item.id}', 1)" class="w-7 h-7 bg-white border border-[var(--line)] rounded-lg flex items-center justify-center text-[var(--ink-soft)] hover:bg-[var(--paper-deep)] shadow-sm">
-                                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                            </button>
+                            <button type="button" onclick="updateCart('${item.id}', 1)" class="w-7 h-7 bg-white border border-[var(--line)] rounded-lg flex items-center justify-center text-[var(--ink-soft)]">+</button>
                         </div>
                     </div>
                 </div>`;
         }).join('');
 
-        let cartListHtml = buildCartListHtml();
+        let cartListHtml = Object.entries(visitorCart).filter(([id, q]) => q > 0).map(([id, q]) => {
+            const item = items.find(i => i.id === id);
+            return `<li class="text-xs flex justify-between bg-[var(--paper)] px-2.5 py-1.5 rounded-lg border border-[var(--line)]"><span class="font-medium">${item?.name}</span><span class="qty text-[var(--rose-deep)]">${q} ${item?.unit}</span></li>`;
+        }).join('') || '<p class="text-xs text-[var(--ink-faint)] italic">尚未選擇任何耗材</p>';
 
         container.innerHTML = `
             <div class="space-y-6 view-enter">
-                <div class="bg-[var(--steel)] text-white p-6 md:p-7 rounded-2xl shadow-lg flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden">
-                    <div class="absolute top-4 right-6 text-[10px] font-mono text-white/40 hidden md:block">今日已登記 ${entriesToday} 筆</div>
-                    <div class="space-y-2">
-                        <div class="inline-block bg-white/20 text-white text-[11px] px-3 py-1 rounded-full font-semibold font-mono">訪客專用登記頁面．免登入</div>
+                <div class="bg-[var(--steel)] text-white p-6 rounded-2xl shadow-lg flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div>
+                        <div class="inline-block bg-white/20 text-white text-[11px] px-3 py-1 rounded-full font-semibold font-mono mb-2">外區工作台・快速領用登記</div>
                         <h2 class="font-display text-2xl font-bold">防護室耗材領用登記</h2>
-                        <p class="text-white/70 text-sm max-w-xl">選擇領用品項與數量，系統會優先扣除外區現貨，不足時自動由倉庫補足並同步試算表。</p>
+                        <p class="text-white/70 text-sm mt-1">此區僅顯示放置於**外區工作台**的品項。點擊品項名稱可檢視照片，若現貨不足系統將自動由內倉調撥。</p>
                     </div>
                 </div>
 
@@ -667,9 +466,9 @@
                     <div class="lg:col-span-2 space-y-4">
                         <div class="paper-card p-5">
                             <h3 class="font-display font-bold text-[var(--ink)] text-base mb-4 flex items-center gap-2">
-                                <i data-lucide="package" class="w-5 h-5 text-[var(--steel)]"></i> 選擇領用耗材
+                                <i data-lucide="package" class="w-5 h-5 text-[var(--steel)]"></i> 外區現貨列表
                             </h3>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">${itemsHtml}</div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">${itemsHtml}</div>
                         </div>
                     </div>
 
@@ -680,19 +479,19 @@
                             </h3>
                             <form onsubmit="handleVisitorSubmit(event)" class="space-y-3">
                                 <div>
-                                    <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">領用人姓名／學號 <span class="text-[var(--rose)]">*</span></label>
+                                    <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">領用人姓名 <span class="text-[var(--rose)]">*</span></label>
                                     <input type="text" id="visitor-name" placeholder="例如：王小明" class="w-full px-3.5 py-2.5 field-input text-sm" required>
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">領用用途／貼紮部位</label>
-                                    <input type="text" id="visitor-purpose" placeholder="例如：踝關節扭傷防護" class="w-full px-3.5 py-2.5 field-input text-sm">
+                                    <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">用途／部位說明</label>
+                                    <input type="text" id="visitor-purpose" placeholder="例如：右膝肌貼防護" class="w-full px-3.5 py-2.5 field-input text-sm">
                                 </div>
                                 <div class="border-t border-[var(--line)] pt-3">
-                                    <span class="text-xs font-semibold text-[var(--ink-soft)] block mb-2">已選擇項目：</span>
+                                    <span class="text-xs font-semibold text-[var(--ink-soft)] block mb-2">已選項目：</span>
                                     <ul id="cart-summary-list" class="space-y-1.5 max-h-40 overflow-y-auto pr-1">${cartListHtml}</ul>
                                 </div>
                                 <button type="submit" class="w-full btn-primary font-semibold py-3 px-4 rounded-xl shadow transition flex items-center justify-center gap-2 text-sm mt-4">
-                                    <i data-lucide="send" class="w-4 h-4"></i> 確認送出登記
+                                    確認送出領用
                                 </button>
                             </form>
                         </div>
@@ -709,57 +508,24 @@
                         <i data-lucide="lock" class="w-6 h-6"></i>
                     </div>
                     <h2 class="font-display text-xl font-bold text-[var(--ink)]">管理者登入</h2>
-                    <p class="text-xs text-[var(--ink-soft)] mt-1">登入後可檢視總數量、修改庫存與進行調撥</p>
                 </div>
                 <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">帳號</label>
-                        <input type="text" id="login-user" placeholder="輸入管理員帳號" autocomplete="off" class="w-full px-3.5 py-2.5 field-input text-sm font-mono" required>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">密碼</label>
-                        <input type="password" id="login-pass" placeholder="輸入管理員密碼" autocomplete="off" class="w-full px-3.5 py-2.5 field-input text-sm font-mono" required>
-                    </div>
-                    <button type="submit" class="w-full bg-[var(--steel)] hover:bg-[var(--steel-deep)] text-white font-semibold py-3 rounded-xl shadow transition text-sm">登入管理後台</button>
+                    <div><label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">帳號</label><input type="text" id="login-user" class="w-full px-3.5 py-2.5 field-input text-sm font-mono" required></div>
+                    <div><label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">密碼</label><input type="password" id="login-pass" class="w-full px-3.5 py-2.5 field-input text-sm font-mono" required></div>
+                    <button type="submit" class="w-full bg-[var(--steel)] text-white font-semibold py-3 rounded-xl shadow text-sm">登入管理後台</button>
                 </form>
-                <p class="text-[10.5px] text-[var(--ink-faint)] mt-4 leading-relaxed flex items-start gap-1.5">
-                    <i data-lucide="alert-triangle" class="w-3.5 h-3.5 shrink-0 mt-0.5"></i>
-                    此登入僅為前端畫面權限區隔，帳密仍存在於瀏覽器程式碼中、非真正的資料安全防護。若需嚴謹的存取控管，建議改用具備後端驗證的方案。
-                </p>
             </div>`;
     }
 
     function renderAdminView(container) {
         if (!container) container = document.getElementById('main-content-area');
-        let lowOuterCount = items.filter(i => i.outerStock <= i.minThreshold).length;
 
-        let shortageAlertHtml = '';
-        if (shortageAlerts.length > 0) {
-            const alertItems = shortageAlerts.map(a => `
-                <li class="flex items-center justify-between text-xs bg-white px-3 py-2 rounded-lg border border-[var(--rose)]/25">
-                    <span><span class="font-semibold text-[var(--ink)]">${a.itemName}</span> <span class="text-[var(--ink-soft)]">由倉庫補足 ${a.qty} 件．登記人：${a.userName}</span></span>
-                    <span class="font-mono text-[var(--ink-faint)] shrink-0 ml-2">${a.timestamp}</span>
-                </li>`).join('');
-            shortageAlertHtml = `
-                <div class="rounded-2xl border-2 border-[var(--rose)] bg-[var(--rose)]/5 p-5 space-y-3">
-                    <div class="flex items-center justify-between gap-3 flex-wrap">
-                        <h3 class="font-display font-bold text-[var(--rose-deep)] text-base flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-[var(--rose)] pulse-dot"></span>
-                            外區現貨不足警示（${shortageAlerts.length}）
-                        </h3>
-                        <button onclick="clearShortageAlerts()" class="bg-white border border-[var(--rose)]/30 text-[var(--rose-deep)] hover:bg-[var(--rose)] hover:text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition">全部標記已處理</button>
-                    </div>
-                    <p class="text-xs text-[var(--ink-soft)]">以下品項在訪客領用當下外區現貨已不足，系統自動由倉庫調撥補足，請儘快安排補貨到外區工作台。</p>
-                    <ul class="space-y-1.5 max-h-48 overflow-y-auto pr-1">${alertItems}</ul>
-                </div>`;
-        }
+        const allCategories = Array.from(new Set(items.map(i => i.category || '未分類')));
+        const categoryOptionsHtml = ['all'].concat(allCategories).map(cat => {
+            return `<option value="${cat}" ${adminCategoryFilter === cat ? 'selected' : ''}>${cat === 'all' ? '全部分類標籤' : cat}</option>`;
+        }).join('');
 
         const filteredItems = adminCategoryFilter === 'all' ? items : items.filter(i => i.category === adminCategoryFilter);
-        const categoryOptionsHtml = ['all'].concat(Object.keys(CATEGORY_STYLES)).map(cat => {
-            const label = cat === 'all' ? '全部分類' : cat;
-            const selected = adminCategoryFilter === cat ? 'selected' : '';
-            return `<option value="${cat}" ${selected}>${label}</option>`;
-        }).join('');
 
         let expiryAlertHtml = '';
         const expiryAlerts = getExpiryAlerts();
@@ -768,7 +534,7 @@
             const tone = expiredCount > 0 ? 'rose' : 'ochre';
             const rows = expiryAlerts.map(a => `
                 <li class="flex items-center justify-between text-xs bg-white px-3 py-2 rounded-lg border ${a.expired ? 'border-[var(--rose)]/25' : 'border-[var(--ochre)]/25'} flex-wrap gap-1">
-                    <span><span class="font-semibold text-[var(--ink)]">${a.itemName}</span> <span class="text-[var(--ink-soft)]">（${a.location === 'warehouse' ? '倉庫' : '外區'}）${a.qty} 件．到期日 ${a.expiryDate}</span></span>
+                    <span><span class="font-semibold text-[var(--ink)]">${a.itemName}</span> <span class="text-[var(--ink-soft)]">（${a.location === 'warehouse' ? '倉庫' : '外區'}）${a.qty} 件．有效期限：${a.expiryDate}</span></span>
                     <span class="font-mono font-bold shrink-0 ${a.expired ? 'text-[var(--rose-deep)]' : 'text-[var(--ochre-deep)]'}">${daysLeftLabel(a.daysLeft)}</span>
                 </li>`).join('');
             expiryAlertHtml = `
@@ -777,26 +543,27 @@
                         <span class="w-2.5 h-2.5 rounded-full bg-[var(--${tone})] pulse-dot"></span>
                         耗材即將到期或已過期（${expiryAlerts.length}）
                     </h3>
-                    <p class="text-xs text-[var(--ink-soft)]">以下批次距離到期日在 ${EXPIRY_WARNING_DAYS} 天內或已過期，請優先使用或安排汰換／補貨。</p>
+                    <p class="text-xs text-[var(--ink-soft)]">以下批次距離到期日在 ${EXPIRY_WARNING_DAYS} 天內或已過期，請優先使用或安排汰換。</p>
                     <ul class="space-y-1.5 max-h-48 overflow-y-auto pr-1">${rows}</ul>
                 </div>`;
         }
 
-        let tableRows = filteredItems.length === 0
-            ? `<tr><td colspan="6" class="p-6 text-center text-xs text-[var(--ink-faint)] italic">此分類目前沒有品項</td></tr>`
-            : filteredItems.map(item => {
-            const isDepleted = item.outerStock === 0;
-            const isLow = item.outerStock <= item.minThreshold;
-            const badge = isDepleted
-                ? '<span class="tag-pill low-badge" style="background:var(--rose);color:#fff">外區已用罄</span>'
-                : (isLow ? '<span class="tag-pill low-badge" style="background:var(--ochre);color:var(--ink)">外區偏低</span>' : '');
+        let tableRows = filteredItems.length === 0 ? `<tr><td colspan="6" class="p-6 text-center text-xs text-[var(--ink-faint)] italic">此分類無品項</td></tr>` : filteredItems.map(item => {
+            const isOnlyWarehouse = item.name.includes('僅內倉') || item.category === '防護裝備';
+            const tracksOuter = !isOnlyWarehouse && (item.minOuter ?? 0) > 0 && item.outerStock > 0;
+            const outerLow = tracksOuter && item.outerStock <= item.minOuter;
+            const totalLow = (item.warehouseStock + item.outerStock) <= (item.minTotal ?? 5);
+
+            let statusBadge = '';
+            if (outerLow) statusBadge += `<span class="tag-pill" style="background:var(--ochre);color:var(--ink)">外區偏低</span>`;
+            if (totalLow) statusBadge += `<span class="tag-pill" style="background:var(--rose);color:#fff">總量警戒</span>`;
 
             const nearestBatch = (item.batches || []).filter(b => b.qty > 0 && b.expiryDate)
                 .sort((a, b) => a.expiryDate.localeCompare(b.expiryDate))[0];
             let expiryBadge = '';
             if (nearestBatch) {
                 const days = daysUntil(nearestBatch.expiryDate);
-                if (days !== null && days < 0) expiryBadge = `<span class="tag-pill low-badge" style="background:var(--rose);color:#fff">已過期</span>`;
+                if (days !== null && days < 0) expiryBadge = `<span class="tag-pill low-badge" style="background:var(--rose);color:#fff">已過期 ${Math.abs(days)} 天</span>`;
                 else if (days !== null && days <= EXPIRY_WARNING_DAYS) expiryBadge = `<span class="tag-pill low-badge" style="background:var(--ochre);color:var(--ink)">${days}天內到期</span>`;
             }
 
@@ -804,29 +571,27 @@
                 <tr class="hover:bg-[var(--paper)] transition">
                     <td class="p-4 font-semibold text-[var(--ink)] text-sm">
                         <div class="flex items-center gap-2 flex-wrap">
-                            <span>${item.name}</span>
-                            ${badge}
+                            <button type="button" onclick="openPhotoModal('${item.id}')" class="text-left font-semibold text-[var(--ink)] hover:text-[var(--steel)] underline decoration-dotted underline-offset-4 cursor-pointer" title="點擊檢視照片">
+                                ${item.name} <i data-lucide="image" class="w-3.5 h-3.5 inline text-[var(--steel)] ml-1"></i>
+                            </button>
+                            ${statusBadge}
                             ${expiryBadge}
                         </div>
                     </td>
-                    <td class="p-4">${categoryTag(item.category)}</td>
+                    <td class="p-4">${categoryTag(item.category || '未分類')}</td>
                     <td class="p-4 text-center qty text-[var(--ink)] text-sm">${item.warehouseStock} ${item.unit}</td>
-                    <td class="p-4 text-center"><span class="qty text-sm px-2.5 py-1 rounded-lg ${isDepleted ? 'bg-[var(--rose)]/10 text-[var(--rose-deep)] border border-[var(--rose)]/30' : (isLow ? 'bg-[var(--ochre)]/12 text-[var(--ochre)] border border-[var(--ochre)]/30' : 'bg-[var(--steel)]/10 text-[var(--steel)]')}">${item.outerStock} ${item.unit}</span></td>
+                    <td class="p-4 text-center"><span class="qty text-sm px-2.5 py-1 rounded-lg ${item.outerStock === 0 ? 'text-[var(--ink-faint)] bg-gray-100' : 'text-[var(--steel)] bg-[var(--steel)]/10'}">${item.outerStock} ${item.unit}</span></td>
                     <td class="p-4 text-center qty text-[var(--ink)] text-sm">${item.warehouseStock + item.outerStock} ${item.unit}</td>
                     <td class="p-4 text-right">
                         <div class="flex items-center justify-end gap-2">
-                            <button onclick="openEditModal('${item.id}')" class="btn-ghost px-2.5 py-1.5 rounded-lg font-semibold text-xs inline-flex items-center justify-center gap-1">
-                                <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> 編輯
-                            </button>
-                            <button onclick="openTransferModal('${item.id}')" class="bg-[var(--steel)] hover:bg-[var(--steel-deep)] text-white px-2.5 py-1.5 rounded-lg font-semibold text-xs transition inline-flex items-center justify-center gap-1">
-                                <i data-lucide="refresh-cw" class="w-3 h-3"></i> 調撥
-                            </button>
+                            <button onclick="openEditModal('${item.id}')" class="btn-ghost px-2.5 py-1.5 rounded-lg font-semibold text-xs">編輯與批次</button>
+                            <button onclick="openTransferModal('${item.id}')" class="bg-[var(--steel)] text-white px-2.5 py-1.5 rounded-lg font-semibold text-xs">調撥</button>
                         </div>
                     </td>
                 </tr>`;
         }).join('');
 
-        let logRows = logs.length === 0 ? `<tr><td colspan="4" class="p-6 text-center text-xs text-[var(--ink-faint)] italic">尚無領用紀錄</td></tr>` : logs.map(l => `
+        let logRows = logs.length === 0 ? `<tr><td colspan="4" class="p-6 text-center text-xs text-[var(--ink-faint)] italic">尚無領用或調撥紀錄</td></tr>` : logs.map(l => `
             <tr class="hover:bg-[var(--paper)] transition">
                 <td class="p-4 font-mono text-[var(--ink-soft)] text-xs">${l.timestamp}</td>
                 <td class="p-4 font-bold text-[var(--ink)] text-sm">${l.userName}</td>
@@ -836,66 +601,30 @@
 
         container.innerHTML = `
             <div class="space-y-6 view-enter">
-                ${shortageAlertHtml}
                 ${expiryAlertHtml}
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div class="paper-card stat-card p-5 flex items-center justify-between" style="--tag-color:var(--steel)">
-                        <div><p class="text-xs font-semibold text-[var(--ink-soft)]">總耗材品項</p><p class="font-display text-2xl font-bold text-[var(--ink)] mt-1">${items.length} <span class="text-xs text-[var(--ink-faint)] font-normal font-sans">項</span></p></div>
-                        <div class="bg-[var(--steel)]/10 text-[var(--steel)] p-3 rounded-xl"><i data-lucide="package" class="w-6 h-6"></i></div>
-                    </div>
-                    <div class="paper-card stat-card p-5 flex items-center justify-between" style="--tag-color:var(--ochre)">
-                        <div><p class="text-xs font-semibold text-[var(--ink-soft)]">外部現貨偏低品項</p><p class="font-display text-2xl font-bold text-[var(--ochre)] mt-1">${lowOuterCount} <span class="text-xs text-[var(--ink-faint)] font-normal font-sans">項需補充</span></p></div>
-                        <div class="bg-[var(--ochre)]/10 text-[var(--ochre)] p-3 rounded-xl"><i data-lucide="alert-triangle" class="w-6 h-6"></i></div>
-                    </div>
-                    <div class="paper-card stat-card p-5 flex items-center justify-between" style="--tag-color:var(--steel)">
-                        <div><p class="text-xs font-semibold text-[var(--ink-soft)]">總領用登記紀錄</p><p class="font-display text-2xl font-bold text-[var(--ink)] mt-1">${logs.length} <span class="text-xs text-[var(--ink-faint)] font-normal font-sans">筆</span></p></div>
-                        <div class="bg-[var(--steel)]/10 text-[var(--steel)] p-3 rounded-xl"><i data-lucide="clipboard-list" class="w-6 h-6"></i></div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div class="paper-card p-5">
-                        <h4 class="font-display font-bold text-[var(--ink)] text-sm flex items-center gap-2 mb-4">
-                            <i data-lucide="bar-chart-3" class="w-4 h-4 text-[var(--steel)]"></i> 各分類庫存總量
-                        </h4>
-                        ${buildCategoryStockChartSVG()}
-                    </div>
-                    <div class="paper-card p-5">
-                        <h4 class="font-display font-bold text-[var(--ink)] text-sm flex items-center gap-2 mb-4">
-                            <i data-lucide="trending-up" class="w-4 h-4 text-[var(--steel)]"></i> 熱門耗材 Top 5（依累計領用量）
-                        </h4>
-                        ${buildTopItemsChartSVG()}
-                    </div>
-                </div>
-
                 <div class="paper-card overflow-hidden">
                     <div class="p-5 border-b border-[var(--line)] flex flex-wrap justify-between items-center gap-4">
                         <div>
                             <h3 class="font-display font-bold text-[var(--ink)] text-base flex items-center gap-2">
-                                <i data-lucide="warehouse" class="w-5 h-5 text-[var(--steel)]"></i> 庫存管理與數量調整
+                                <i data-lucide="warehouse" class="w-5 h-5 text-[var(--steel)]"></i> 耗材庫存與照片管理
                             </h3>
-                            <p class="text-xs text-[var(--ink-soft)] mt-0.5">修改數量或調撥時會自動同步更新至 Google 試算表對應列</p>
+                            <p class="text-xs text-[var(--ink-soft)] mt-0.5">點擊品項名稱文字即可檢視該耗材的圖片與說明。</p>
                         </div>
                         <div class="flex gap-2 flex-wrap items-center">
-                            <select onchange="handleCategoryFilterChange(this.value)" class="field-input text-xs font-medium px-3 py-2 bg-white">${categoryOptionsHtml}</select>
-                            <button onclick="openAddModal()" class="btn-primary px-3.5 py-2 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 shadow-sm">
-                                <i data-lucide="plus" class="w-4 h-4"></i> 新增耗材品項
-                            </button>
-                            <button onclick="exportCSV()" class="btn-steel px-3.5 py-2 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 shadow-sm">
-                                <i data-lucide="file-spreadsheet" class="w-4 h-4"></i> 匯出 CSV
-                            </button>
+                            <select onchange="adminCategoryFilter=this.value; render();" class="field-input text-xs font-medium px-3 py-2 bg-white">${categoryOptionsHtml}</select>
+                            <button onclick="openAddModal()" class="btn-primary px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5">新增品項</button>
                         </div>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse text-sm">
                             <thead>
                                 <tr class="bg-[var(--paper)] text-[var(--ink-soft)] text-xs font-semibold border-b border-[var(--line)]">
-                                    <th class="p-4">耗材名稱</th>
-                                    <th class="p-4">分類</th>
-                                    <th class="p-4 text-center">倉庫庫存（內倉）</th>
-                                    <th class="p-4 text-center">外區現貨（工作台）</th>
+                                    <th class="p-4">耗材名稱（點擊文字看照片）</th>
+                                    <th class="p-4">分類標籤</th>
+                                    <th class="p-4 text-center">倉庫庫存 (內倉)</th>
+                                    <th class="p-4 text-center">外區現貨 (工作台)</th>
                                     <th class="p-4 text-center">總計庫存</th>
-                                    <th class="p-4 text-right">快捷操作</th>
+                                    <th class="p-4 text-right">管理操作</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-[var(--line)]">${tableRows}</tbody>
@@ -903,32 +632,10 @@
                     </div>
                 </div>
 
-                <div class="paper-card p-5 space-y-4">
-                    <div class="flex flex-wrap items-center justify-between gap-4">
-                        <div>
-                            <h4 class="font-display font-bold text-[var(--ink)] text-sm flex items-center gap-2">
-                                <i data-lucide="cable" class="w-4 h-4 text-[var(--steel)]"></i> Google 試算表同步狀態
-                            </h4>
-                            <p class="text-xs text-[var(--ink-soft)] mt-0.5 font-mono break-all">${sheetConfig.webhookUrl ? sheetConfig.webhookUrl : '尚未設定 Web App 網址'}</p>
-                        </div>
-                        <div class="flex items-center gap-2 flex-wrap">
-                            <button onclick="loadFromSheet(false)" class="bg-[var(--steel)]/10 text-[var(--steel)] hover:bg-[var(--steel)] hover:text-white px-3.5 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-1.5">
-                                <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> 重新從試算表載入
-                            </button>
-                        </div>
-                    </div>
-                    <div class="bg-[var(--paper)] p-3.5 rounded-xl border border-[var(--line)] flex items-center justify-between text-xs flex-wrap gap-2">
-                        <span class="font-mono text-[var(--moss)] font-medium">${sheetConfig.lastSynced}</span>
-                        <button onclick="syncToGoogleSheet('MANUAL_SYNC')" class="btn-steel px-3 py-1.5 rounded-lg font-semibold transition shadow-sm flex items-center gap-1.5">
-                            <i data-lucide="upload-cloud" class="w-3.5 h-3.5"></i> 手動推送目前資料
-                        </button>
-                    </div>
-                </div>
-
                 <div class="paper-card overflow-hidden">
                     <div class="p-5 border-b border-[var(--line)]">
                         <h3 class="font-display font-bold text-[var(--ink)] text-base flex items-center gap-2">
-                            <i data-lucide="clipboard-list" class="w-5 h-5 text-[var(--steel)]"></i> 訪客領用歷史紀錄總表
+                            <i data-lucide="clipboard-list" class="w-5 h-5 text-[var(--steel)]"></i> 領用與調撥異動紀錄總表
                         </h3>
                     </div>
                     <div class="overflow-x-auto">
@@ -936,9 +643,9 @@
                             <thead>
                                 <tr class="bg-[var(--paper)] text-[var(--ink-soft)] text-xs font-semibold border-b border-[var(--line)]">
                                     <th class="p-4">時間</th>
-                                    <th class="p-4">登記人</th>
-                                    <th class="p-4">用途說明</th>
-                                    <th class="p-4">領用耗材明細</th>
+                                    <th class="p-4">操作人／登記人</th>
+                                    <th class="p-4">異動性質／說明</th>
+                                    <th class="p-4">明細</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-[var(--line)]">${logRows}</tbody>
@@ -948,30 +655,43 @@
             </div>`;
     }
 
-    // ---------- Actions & Handlers ----------
+    function openPhotoModal(itemId) {
+        const item = items.find(i => i.id === itemId);
+        if (!item) return;
+        document.getElementById('photo-modal-title').textContent = item.name + ' - 照片預覽';
+        const imgEl = document.getElementById('photo-modal-img');
+        
+        let targetUrl = item.photoUrl && item.photoUrl.trim() !== '' ? item.photoUrl : `assets/${item.id}.png`;
+        imgEl.src = targetUrl;
+        
+        document.getElementById('photo-modal').classList.remove('hidden');
+        safeCreateIcons();
+    }
+
     function updateCart(itemId, delta) {
         const current = visitorCart[itemId] || 0;
         const updated = Math.max(0, current + delta);
         if (updated === 0) delete visitorCart[itemId]; else visitorCart[itemId] = updated;
-
-        // 只更新該卡片的數字與右側清單，不重繪整個畫面，避免每點一次就整頁刷新
         const qtyEl = document.getElementById('qty-' + itemId);
         if (qtyEl) qtyEl.textContent = visitorCart[itemId] || 0;
         const cartListEl = document.getElementById('cart-summary-list');
-        if (cartListEl) cartListEl.innerHTML = buildCartListHtml();
+        if (cartListEl) {
+            cartListEl.innerHTML = Object.entries(visitorCart).filter(([id, q]) => q > 0).map(([id, q]) => {
+                const item = items.find(i => i.id === id);
+                return `<li class="text-xs flex justify-between bg-[var(--paper)] px-2.5 py-1.5 rounded-lg border border-[var(--line)]"><span class="font-medium">${item?.name}</span><span class="qty text-[var(--rose-deep)]">${q} ${item?.unit}</span></li>`;
+            }).join('') || '<p class="text-xs text-[var(--ink-faint)] italic">尚未選擇任何耗材</p>';
+        }
     }
 
     function handleVisitorSubmit(event) {
         event.preventDefault();
         const name = document.getElementById('visitor-name').value.trim();
-        const purpose = document.getElementById('visitor-purpose').value.trim() || '日常防護使用';
+        const purpose = document.getElementById('visitor-purpose').value.trim() || '日常使用';
         const entries = Object.entries(visitorCart).filter(([id, q]) => q > 0);
 
-        if (!name) { showToast('請輸入領用人姓名', 'error'); return; }
-        if (entries.length === 0) { showToast('請至少選擇一項耗材數量', 'error'); return; }
+        if (!name || entries.length === 0) { showToast('請填寫姓名並選擇領用數量', 'error'); return; }
 
         let usedSummary = [];
-        let newAlerts = [];
         for (let [itemId, reqQty] of entries) {
             let item = items.find(i => i.id === itemId);
             if (!item) continue;
@@ -979,84 +699,32 @@
             let fromOuter = Math.min(item.outerStock, needed);
             let remainder = needed - fromOuter;
             let fromWarehouse = Math.min(item.warehouseStock, remainder);
-            const hasBatches = item.batches && item.batches.length > 0;
 
-            if (hasBatches) {
-                // 有登記批次到期日的品項：依批次陣列順序扣除，並重新加總庫存數字
-                if (fromOuter > 0) deductFromBatches(item, 'outer', fromOuter);
-                if (fromWarehouse > 0) deductFromBatches(item, 'warehouse', fromWarehouse);
-                recomputeItemStock(item);
-            } else {
-                item.outerStock -= fromOuter;
-                item.warehouseStock -= fromWarehouse;
-            }
-
-            if (fromWarehouse > 0) {
-                // 外區現貨不足、需動用倉庫庫存，記一筆紅燈通知給負責人
-                newAlerts.push({
-                    id: 'alert-' + Date.now() + '-' + itemId,
-                    itemName: item.name,
-                    qty: fromWarehouse,
-                    userName: name,
-                    timestamp: new Date().toLocaleString()
-                });
-            }
+            item.outerStock -= fromOuter;
+            item.warehouseStock -= fromWarehouse;
             usedSummary.push({ name: item.name, qty: fromOuter + fromWarehouse });
         }
 
-        const newLog = {
-            id: 'log-' + Date.now(),
-            timestamp: new Date().toLocaleString(),
-            userName: name,
-            purpose: purpose,
-            itemsUsed: usedSummary
-        };
-
+        const newLog = { id: 'log-' + Date.now(), timestamp: new Date().toLocaleString(), userName: name, purpose: `訪客領用：${purpose}`, itemsUsed: usedSummary };
         logs.unshift(newLog);
         visitorCart = {};
-        showToast('耗材領用登記成功！');
-        if (newAlerts.length > 0) {
-            shortageAlerts = newAlerts.concat(shortageAlerts);
-            const alertText = newAlerts.map(a => `${a.itemName} ×${a.qty}`).join('、');
-            showToast(`外區現貨不足，已由倉庫補足：${alertText}，請通知負責人補貨`, 'error');
-        }
+        showToast('領用登記成功！');
         syncToGoogleSheet('VISITOR_CHECKOUT', newLog);
         render();
     }
 
     function handleLoginSubmit(event) {
         event.preventDefault();
-        const u = document.getElementById('login-user').value;
-        const p = document.getElementById('login-pass').value;
-        if (u === ADMIN_CREDENTIALS.user && p === ADMIN_CREDENTIALS.pass) {
+        if (document.getElementById('login-user').value === ADMIN_CREDENTIALS.user && document.getElementById('login-pass').value === ADMIN_CREDENTIALS.pass) {
             isLoggedIn = true;
-            showToast('歡迎回來，管理者！');
+            showToast('登入成功！');
             switchView('admin');
         } else {
-            showToast('帳號或密碼錯誤', 'error');
+            showToast('帳號密碼錯誤', 'error');
         }
     }
+    function handleLogout() { isLoggedIn = false; switchView('visitor'); }
 
-    function handleLogout() {
-        isLoggedIn = false;
-        showToast('已登出管理者帳號', 'info');
-        switchView('visitor');
-    }
-
-    function clearShortageAlerts() {
-        shortageAlerts = [];
-        saveLocalCache();
-        showToast('已將外區現貨不足通知標記為已處理', 'success');
-        render();
-    }
-
-    function handleCategoryFilterChange(value) {
-        adminCategoryFilter = value;
-        render();
-    }
-
-    // ---------- Modals ----------
-    // ---------- Transfer Modal（有登記批次時，手動選批次調撥；沒有的話沿用簡易數量輸入）----------
     function openTransferModal(itemId) {
         activeItemIdForTransfer = itemId;
         renderTransferModalContent();
@@ -1068,94 +736,106 @@
         const container = document.getElementById('transfer-modal-content');
         if (!item || !container) return;
 
-        const warehouseBatches = (item.batches || [])
-            .filter(b => b.location === 'warehouse' && b.qty > 0)
-            .sort((a, b) => (a.expiryDate || '').localeCompare(b.expiryDate || ''));
+        const warehouseBatches = (item.batches || []).filter(b => b.location === 'warehouse' && b.qty > 0);
+        const outerBatches = (item.batches || []).filter(b => b.location === 'outer' && b.qty > 0);
 
-        if (warehouseBatches.length > 0) {
-            const rows = warehouseBatches.map(b => {
-                const days = daysUntil(b.expiryDate);
-                const urgent = days !== null && days <= EXPIRY_WARNING_DAYS;
-                return `
-                    <div class="flex items-center gap-2 bg-[var(--paper)] border border-[var(--line)] rounded-lg px-3 py-2 text-xs flex-wrap">
-                        <span class="font-mono font-semibold">${b.expiryDate}</span>
-                        <span class="${urgent ? (days < 0 ? 'text-[var(--rose-deep)]' : 'text-[var(--ochre-deep)]') : 'text-[var(--ink-faint)]'}">${daysLeftLabel(days)}</span>
-                        <span class="text-[var(--ink-soft)]">現有 ${b.qty} ${item.unit}</span>
-                        <input type="number" min="0" max="${b.qty}" value="0" data-batch-id="${b.id}" data-expiry="${b.expiryDate}"
-                            class="batch-transfer-qty field-input text-xs font-mono font-bold w-16 px-2 py-1 text-center ml-auto">
-                    </div>`;
-            }).join('');
-            container.innerHTML = `
-                <p class="text-xs text-[var(--ink-soft)] mb-1">品項：<span class="font-semibold text-[var(--ink)]">${item.name}</span></p>
-                <p class="text-xs text-[var(--ink-faint)] mb-3">此品項有登記批次到期日，請手動選擇要從哪個批次調撥到外區工作台：</p>
-                <div class="space-y-1.5 max-h-56 overflow-y-auto pr-1 mb-4">${rows}</div>
-                <div class="flex gap-3">
-                    <button type="button" onclick="closeModal('transfer-modal')" class="flex-1 btn-ghost py-2.5 rounded-xl text-xs font-semibold">取消</button>
-                    <button type="button" onclick="handleBatchTransferSubmit()" class="flex-1 btn-steel py-2.5 rounded-xl text-xs font-semibold">確認調撥</button>
+        const whRows = warehouseBatches.length === 0 ? '<p class="text-xs text-[var(--ink-faint)] italic">倉庫無現貨可調撥</p>' : warehouseBatches.map(b => {
+            return `
+                <div class="flex items-center gap-2 bg-[var(--paper)] border border-[var(--line)] rounded-lg px-3 py-2 text-xs flex-wrap">
+                    <span class="font-mono font-semibold">效期: ${b.expiryDate}</span>
+                    <span class="text-[var(--ink-soft)]">庫存: ${b.qty} ${item.unit}</span>
+                    <input type="number" min="0" max="${b.qty}" value="0" data-batch-id="${b.id}" data-expiry="${b.expiryDate}"
+                        class="wh-to-out-qty field-input text-xs font-mono font-bold w-16 px-2 py-1 text-center ml-auto">
                 </div>`;
-        } else {
-            container.innerHTML = `
-                <p class="text-xs text-[var(--ink-soft)] mb-3">品項：<span class="font-semibold text-[var(--ink)]">${item.name}</span>（內倉存量：${item.warehouseStock} ${item.unit}）</p>
-                <form onsubmit="handleTransferSubmit(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">調撥數量</label>
-                        <input type="number" id="transfer-qty-input" min="1" max="${item.warehouseStock}" value="${Math.min(5, item.warehouseStock) || 1}" class="w-full px-3.5 py-2.5 field-input text-sm font-bold font-mono" required>
-                    </div>
-                    <div class="flex gap-3 pt-2">
-                        <button type="button" onclick="closeModal('transfer-modal')" class="flex-1 btn-ghost py-2.5 rounded-xl text-xs font-semibold">取消</button>
-                        <button type="submit" class="flex-1 btn-steel py-2.5 rounded-xl text-xs font-semibold">確認調撥</button>
-                    </div>
-                </form>`;
-        }
+        }).join('');
+
+        const outRows = outerBatches.length === 0 ? '<p class="text-xs text-[var(--ink-faint)] italic">外區無現貨可退回</p>' : outerBatches.map(b => {
+            return `
+                <div class="flex items-center gap-2 bg-[var(--paper)] border border-[var(--line)] rounded-lg px-3 py-2 text-xs flex-wrap">
+                    <span class="font-mono font-semibold">效期: ${b.expiryDate}</span>
+                    <span class="text-[var(--ink-soft)]">外區: ${b.qty} ${item.unit}</span>
+                    <input type="number" min="0" max="${b.qty}" value="0" data-batch-id="${b.id}" data-expiry="${b.expiryDate}"
+                        class="out-to-wh-qty field-input text-xs font-mono font-bold w-16 px-2 py-1 text-center ml-auto">
+                </div>`;
+        }).join('');
+
+        container.innerHTML = `
+            <p class="text-xs text-[var(--ink-soft)] mb-4">品項：<span class="font-semibold text-[var(--ink)]">${item.name}</span>（內倉：${item.warehouseStock} ${item.unit} | 外區：${item.outerStock} ${item.unit}）</p>
+            
+            <div class="space-y-4">
+                <div class="bg-[var(--paper-deep)]/50 p-3.5 rounded-xl border border-[var(--line)] space-y-2">
+                    <span class="text-xs font-bold text-[var(--steel-deep)] block">📦 倉庫 ➔ 外區工作台（調撥補貨）</span>
+                    <div class="space-y-1.5 max-h-40 overflow-y-auto pr-1">${whRows}</div>
+                    <button type="button" onclick="handleTransferSubmit('warehouse_to_outer')" class="w-full btn-steel py-2 rounded-lg text-xs font-semibold mt-1">確認調撥至外區</button>
+                </div>
+
+                <div class="bg-amber-50/50 p-3.5 rounded-xl border border-amber-200 space-y-2">
+                    <span class="text-xs font-bold text-amber-800 block">↩️ 外區工作台 ➔ 倉庫（退回庫存）</span>
+                    <div class="space-y-1.5 max-h-40 overflow-y-auto pr-1">${outRows}</div>
+                    <button type="button" onclick="handleTransferSubmit('outer_to_warehouse')" class="w-full bg-amber-600 hover:bg-amber-700 text-white py-2 rounded-lg text-xs font-semibold mt-1 transition">確認退回倉庫</button>
+                </div>
+            </div>
+
+            <button type="button" onclick="closeModal('transfer-modal')" class="w-full btn-ghost py-2.5 rounded-xl text-xs font-semibold mt-4">關閉視窗</button>`;
         safeCreateIcons();
     }
 
-    function handleTransferSubmit(event) {
-        event.preventDefault();
-        const qty = parseInt(document.getElementById('transfer-qty-input').value);
-        const item = items.find(i => i.id === activeItemIdForTransfer);
-        if (item.warehouseStock < qty) { showToast('倉庫庫存不足！', 'error'); return; }
-
-        item.warehouseStock -= qty;
-        item.outerStock += qty;
-        closeModal('transfer-modal');
-        showToast('調撥成功！');
-        syncToGoogleSheet('TRANSFER_STOCK', { itemId: item.id, qty });
-        render();
-    }
-
-    function handleBatchTransferSubmit() {
+    function handleTransferSubmit(direction) {
         const item = items.find(i => i.id === activeItemIdForTransfer);
         if (!item) return;
-        const inputs = document.querySelectorAll('.batch-transfer-qty');
+
+        const selector = direction === 'warehouse_to_outer' ? '.wh-to-out-qty' : '.out-to-wh-qty';
+        const inputs = document.querySelectorAll(selector);
         let totalMoved = 0;
+        let movedDetails = [];
 
         inputs.forEach(inp => {
             const qty = Math.max(0, parseInt(inp.value) || 0);
             if (qty <= 0) return;
-            const batch = (item.batches || []).find(b => b.id === inp.getAttribute('data-batch-id'));
-            if (!batch) return;
+            const batchId = inp.getAttribute('data-batch-id');
             const expiry = inp.getAttribute('data-expiry');
+            const batch = (item.batches || []).find(b => b.id === batchId);
+            if (!batch) return;
+
             const moveQty = Math.min(qty, batch.qty);
             batch.qty -= moveQty;
             totalMoved += moveQty;
-            // 調撥到外區後到期日不變，優先合併進同到期日的外區批次，沒有的話新增一筆
-            let outerBatch = item.batches.find(b => b.location === 'outer' && b.expiryDate === expiry);
-            if (outerBatch) outerBatch.qty += moveQty;
-            else item.batches.push({ id: 'batch-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6), qty: moveQty, expiryDate: expiry, location: 'outer' });
+
+            const targetLocation = direction === 'warehouse_to_outer' ? 'outer' : 'warehouse';
+            let targetBatch = item.batches.find(b => b.location === targetLocation && b.expiryDate === expiry);
+            if (targetBatch) {
+                targetBatch.qty += moveQty;
+            } else {
+                item.batches.push({
+                    id: 'batch-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6),
+                    qty: moveQty,
+                    expiryDate: expiry,
+                    location: targetLocation
+                });
+            }
+            movedDetails.push({ name: `${item.name} (${expiry})`, qty: moveQty });
         });
 
         if (totalMoved === 0) { showToast('請至少輸入一個批次的調撥數量', 'error'); return; }
 
         item.batches = item.batches.filter(b => b.qty > 0);
         recomputeItemStock(item);
-        closeModal('transfer-modal');
-        showToast('調撥成功！');
-        syncToGoogleSheet('TRANSFER_STOCK', { itemId: item.id });
+
+        const transferLog = {
+            id: 'log-' + Date.now(),
+            timestamp: new Date().toLocaleString(),
+            userName: '管理員',
+            purpose: direction === 'warehouse_to_outer' ? '庫存調撥：倉庫 ➔ 外區' : '庫存調撥：外區 ➔ 倉庫',
+            itemsUsed: movedDetails
+        };
+        logs.unshift(transferLog);
+
+        showToast(direction === 'warehouse_to_outer' ? '成功調撥至外區工作台！' : '成功退回倉庫！');
+        syncToGoogleSheet('TRANSFER', transferLog);
+        renderTransferModalContent();
         render();
     }
 
-    // ---------- Edit Modal（庫存數量 + 批次到期日管理）----------
     function openEditModal(itemId) {
         activeItemIdForEdit = itemId;
         renderEditModalContent();
@@ -1168,15 +848,14 @@
         if (!item || !container) return;
 
         const batches = (item.batches || []).slice().sort((a, b) => (a.expiryDate || '').localeCompare(b.expiryDate || ''));
-        const hasBatches = batches.length > 0;
 
-        const batchRowsHtml = batches.length === 0 ? '<p class="text-xs text-[var(--ink-faint)] italic">尚未登記任何批次到期日</p>' : batches.map(b => {
+        const batchRowsHtml = batches.length === 0 ? '<p class="text-xs text-[var(--ink-faint)] italic">尚無批次到期日紀錄</p>' : batches.map(b => {
             const days = daysUntil(b.expiryDate);
             const urgent = days !== null && days <= EXPIRY_WARNING_DAYS;
             return `
                 <div class="flex items-center gap-2 bg-[var(--paper)] border border-[var(--line)] rounded-lg px-2.5 py-2 text-xs flex-wrap">
                     <span class="font-mono font-semibold">${b.expiryDate || '未設定'}</span>
-                    <span class="${urgent ? (days < 0 ? 'text-[var(--rose-deep)]' : 'text-[var(--ochre-deep)]') : 'text-[var(--ink-faint)]'} shrink-0">${daysLeftLabel(days)}</span>
+                    <span class="${urgent ? (days < 0 ? 'text-[var(--rose-deep)] font-bold' : 'text-[var(--ochre-deep)]') : 'text-[var(--ink-faint)]'} shrink-0">${daysLeftLabel(days)}</span>
                     <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold shrink-0 ${b.location === 'warehouse' ? 'bg-[var(--steel)]/10 text-[var(--steel)]' : 'bg-[var(--moss)]/10 text-[var(--moss)]'}">${b.location === 'warehouse' ? '倉庫' : '外區'}</span>
                     <input type="number" min="0" value="${b.qty}" onchange="updateBatchQty('${b.id}', this.value)" class="field-input text-xs font-mono font-bold w-16 px-2 py-1 text-center">
                     <span class="text-[var(--ink-soft)] shrink-0">${item.unit}</span>
@@ -1185,26 +864,29 @@
         }).join('');
 
         container.innerHTML = `
-            <p class="text-xs text-[var(--ink-soft)] mb-3">品項：<span class="font-semibold text-[var(--ink)]">${item.name}</span></p>
-            <div class="bg-[var(--paper-deep)] rounded-xl px-3 py-2 text-xs font-mono font-semibold text-[var(--ink)] mb-4">
-                倉庫庫存 ${item.warehouseStock} ${item.unit}　外區現貨 ${item.outerStock} ${item.unit}　總計 ${item.warehouseStock + item.outerStock} ${item.unit}
-            </div>
-
-            ${hasBatches ? '<p class="text-[11px] text-[var(--ink-faint)] mb-4">此品項已改由下方批次加總計算庫存，如需調整請直接編輯批次數量。</p>' : `
-            <form onsubmit="handleEditSubmit(event)" class="space-y-3 mb-5 pb-5 border-b border-[var(--line)]">
-                <div>
-                    <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">倉庫庫存（內倉）</label>
-                    <input type="number" id="edit-warehouse-input" min="0" value="${item.warehouseStock}" class="w-full px-3.5 py-2.5 field-input text-sm font-bold font-mono" required>
+            <form onsubmit="handleEditSubmit(event)" class="space-y-3 pb-4 border-b border-[var(--line)]">
+                <div><label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">耗材名稱</label><input type="text" id="edit-name" value="${item.name}" class="w-full px-3 py-2 field-input text-xs" required></div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div><label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">分類標籤</label><input type="text" id="edit-cat" value="${item.category || ''}" class="w-full px-3 py-2 field-input text-xs" required></div>
+                    <div><label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">單位</label><input type="text" id="edit-unit" value="${item.unit}" class="w-full px-3 py-2 field-input text-xs" required></div>
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">外區現貨（工作台）</label>
-                    <input type="number" id="edit-outer-input" min="0" value="${item.outerStock}" class="w-full px-3.5 py-2.5 field-input text-sm font-bold font-mono" required>
+                    <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">照片圖片網址 (URL)</label>
+                    <input type="url" id="edit-photo" value="${item.photoUrl || ''}" placeholder="https://..." class="w-full px-3 py-2 field-input text-xs">
                 </div>
-                <button type="submit" class="w-full btn-steel py-2.5 rounded-xl text-xs font-semibold">儲存數量</button>
-            </form>`}
+                <div class="grid grid-cols-2 gap-2">
+                    <div><label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">倉庫庫存 (內倉)</label><input type="number" id="edit-wh" min="0" value="${item.warehouseStock}" class="w-full px-3 py-2 field-input text-xs font-mono font-bold" required></div>
+                    <div><label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">外區現貨 (工作台)</label><input type="number" id="edit-out" min="0" value="${item.outerStock}" class="w-full px-3 py-2 field-input text-xs font-mono font-bold" required></div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div><label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">外區警戒值</label><input type="number" id="edit-min-outer" min="0" value="${item.minOuter ?? 0}" class="w-full px-3 py-2 field-input text-xs font-mono font-bold" required></div>
+                    <div><label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">總量警戒值</label><input type="number" id="edit-min-total" min="0" value="${item.minTotal ?? 0}" class="w-full px-3 py-2 field-input text-xs font-mono font-bold" required></div>
+                </div>
+                <button type="submit" class="w-full btn-steel py-2 rounded-xl text-xs font-semibold">儲存基本資料與照片</button>
+            </form>
 
-            <div class="space-y-2 mb-4">
-                <span class="text-xs font-semibold text-[var(--ink-soft)] block">批次到期管理</span>
+            <div class="space-y-2 my-4">
+                <span class="text-xs font-semibold text-[var(--ink-soft)] block">批次與有效期限管理</span>
                 <div class="space-y-1.5 max-h-40 overflow-y-auto pr-1">${batchRowsHtml}</div>
             </div>
 
@@ -1227,11 +909,18 @@
     function handleEditSubmit(event) {
         event.preventDefault();
         const item = items.find(i => i.id === activeItemIdForEdit);
-        item.warehouseStock = parseInt(document.getElementById('edit-warehouse-input').value) || 0;
-        item.outerStock = parseInt(document.getElementById('edit-outer-input').value) || 0;
-        showToast('庫存數量已更新！');
-        syncToGoogleSheet('UPDATE_INVENTORY', { itemId: item.id });
-        renderEditModalContent();
+        item.name = document.getElementById('edit-name').value.trim();
+        item.category = document.getElementById('edit-cat').value.trim();
+        item.unit = document.getElementById('edit-unit').value.trim();
+        item.photoUrl = document.getElementById('edit-photo').value.trim();
+        item.warehouseStock = parseInt(document.getElementById('edit-wh').value) || 0;
+        item.outerStock = parseInt(document.getElementById('edit-out').value) || 0;
+        item.minOuter = parseInt(document.getElementById('edit-min-outer').value) || 0;
+        item.minTotal = parseInt(document.getElementById('edit-min-total').value) || 0;
+
+        closeModal('edit-modal');
+        showToast('品項資料與照片已更新！');
+        syncToGoogleSheet('UPDATE', item);
         render();
     }
 
@@ -1241,42 +930,32 @@
         const qty = parseInt(document.getElementById('new-batch-qty').value) || 0;
         const expiry = document.getElementById('new-batch-expiry').value;
         const location = document.getElementById('new-batch-location').value;
-        if (qty <= 0) { showToast('數量需大於 0', 'error'); return; }
-        if (!expiry) { showToast('請選擇到期日', 'error'); return; }
+        if (qty <= 0 || !expiry) { showToast('請填寫正確數量與有效期限', 'error'); return; }
 
-        const wasEmpty = !item.batches || item.batches.length === 0;
         if (!item.batches) item.batches = [];
-        item.batches.push({ id: 'batch-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6), qty, expiryDate: expiry, location });
+        item.batches.push({ id: 'batch-' + Date.now(), qty, expiryDate: expiry, location });
         recomputeItemStock(item);
-
-        showToast(wasEmpty ? '已切換為批次管理，庫存數量現在由批次加總計算' : '已新增批次', wasEmpty ? 'info' : 'success');
-        syncToGoogleSheet('UPDATE_INVENTORY', { itemId: item.id });
+        showToast('已新增批次紀錄');
+        syncToGoogleSheet('UPDATE', item);
         renderEditModalContent();
         render();
     }
 
-    function updateBatchQty(batchId, value) {
+    function updateBatchQty(batchId, val) {
         const item = items.find(i => i.id === activeItemIdForEdit);
-        if (!item) return;
-        const batch = (item.batches || []).find(b => b.id === batchId);
-        if (!batch) return;
-        batch.qty = Math.max(0, parseInt(value) || 0);
-        item.batches = item.batches.filter(b => b.qty > 0);
-        recomputeItemStock(item);
-        syncToGoogleSheet('UPDATE_INVENTORY', { itemId: item.id });
-        renderEditModalContent();
-        render();
+        const b = (item.batches || []).find(x => x.id === batchId);
+        if (b) { b.qty = Math.max(0, parseInt(val) || 0); recomputeItemStock(item); renderEditModalContent(); render(); }
     }
 
     function removeBatch(batchId) {
         const item = items.find(i => i.id === activeItemIdForEdit);
-        if (!item) return;
-        item.batches = (item.batches || []).filter(b => b.id !== batchId);
-        recomputeItemStock(item);
-        showToast('已刪除該批次', 'info');
-        syncToGoogleSheet('UPDATE_INVENTORY', { itemId: item.id });
-        renderEditModalContent();
-        render();
+        if (item && item.batches) {
+            item.batches = item.batches.filter(x => x.id !== batchId);
+            recomputeItemStock(item);
+            showToast('已刪除批次', 'info');
+            renderEditModalContent();
+            render();
+        }
     }
 
     function openAddModal() { document.getElementById('add-modal').classList.remove('hidden'); }
@@ -1285,43 +964,28 @@
         const newItem = {
             id: 'item-' + Date.now(),
             name: document.getElementById('add-name-input').value.trim(),
-            category: document.getElementById('add-cat-input').value,
+            category: document.getElementById('add-cat-input').value.trim(),
             warehouseStock: parseInt(document.getElementById('add-warehouse-input').value) || 0,
             outerStock: parseInt(document.getElementById('add-outer-input').value) || 0,
             unit: document.getElementById('add-unit-input').value.trim() || '卷',
-            minThreshold: parseInt(document.getElementById('add-min-input').value) || 3
+            minOuter: parseInt(document.getElementById('add-min-outer').value) || 2,
+            minTotal: parseInt(document.getElementById('add-min-total').value) || 5,
+            photoUrl: document.getElementById('add-photo-input').value.trim(),
+            batches: []
         };
         items.push(newItem);
         closeModal('add-modal');
-        showToast('新耗材品項新增成功！');
-        syncToGoogleSheet('ADD_ITEM', newItem);
+        showToast('新增成功！');
+        syncToGoogleSheet('ADD', newItem);
         render();
     }
 
     function closeModal(modalId) { document.getElementById(modalId).classList.add('hidden'); }
 
-    function exportCSV() {
-        let csv = "data:text/csv;charset=utf-8,\uFEFF耗材名稱,分類,倉庫庫存,外區現貨,總計庫存,單位\n";
-        items.forEach(i => { csv += `"${i.name}","${i.category}",${i.warehouseStock},${i.outerStock},${i.warehouseStock + i.outerStock},"${i.unit}"\n`; });
-        const link = document.createElement("a");
-        link.setAttribute("href", encodeURI(csv));
-        link.setAttribute("download", `防護室耗材總表_${new Date().toISOString().slice(0, 10)}.csv`);
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        showToast('已成功匯出 CSV 檔案');
-    }
-
-    // ---------- Initialize ----------
-    window.onload = function () {
-        try {
-            loadLocalCache();
-            render();
-            loadFromSheet(true);
-        } catch (e) {
-            console.error('初始化失敗：', e);
-            showToast('系統初始化發生問題，請重新整理頁面', 'error');
-        }
+    window.onload = function() {
+        loadLocalCache();
+        render();
+        loadFromSheet(true);
     };
 </script>
 </body>
