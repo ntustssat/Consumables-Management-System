@@ -52,7 +52,7 @@
     .btn-ghost:hover{ background: var(--paper-deep); }
     .field-input{ background: var(--paper); border:1px solid var(--line); border-radius:12px; color: var(--ink); transition: border-color .15s ease; }
     .field-input:focus{ outline:none; border-color: var(--steel); box-shadow: 0 0 0 3px rgba(66,133,244,.15); background:#fff; }
-    .tag-pill{ font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.02em; font-weight:600; padding:2px 8px; border-radius:999px; display:inline-flex; align-items:center; gap:4px; color:#fff; }
+    .tag-pill{ font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.02em; font-weight:600; padding:2px 8px; border-radius:999px; display:inline-flex; align-items:center; gap:4px; }
     .qty{ font-family:'JetBrains Mono',monospace; font-weight:700; font-variant-numeric: tabular-nums; }
     @keyframes fadeSlide{ from{ opacity:0; transform: translateY(6px);} to{ opacity:1; transform: translateY(0);} }
     .view-enter{ animation: fadeSlide .28s ease both; }
@@ -94,7 +94,6 @@
 
 <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6" id="main-content-area"></main>
 
-<!-- Photo Modal -->
 <div id="photo-modal" class="hidden fixed inset-0 bg-[var(--ink)]/60 backdrop-blur-sm z-[70] flex items-center justify-center p-4">
     <div class="bg-[var(--card)] rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-[var(--line)] space-y-4">
         <div class="flex justify-between items-center">
@@ -110,7 +109,6 @@
     </div>
 </div>
 
-<!-- Transfer Modal -->
 <div id="transfer-modal" class="hidden fixed inset-0 bg-[var(--ink)]/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-[var(--card)] rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-[var(--line)] max-h-[85vh] overflow-y-auto">
         <h3 class="font-display text-lg font-bold mb-3">庫存批次雙向調撥</h3>
@@ -118,7 +116,6 @@
     </div>
 </div>
 
-<!-- Edit Stock & Batch Modal -->
 <div id="edit-modal" class="hidden fixed inset-0 bg-[var(--ink)]/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-[var(--card)] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-[var(--line)] max-h-[85vh] overflow-y-auto">
         <h3 class="font-display text-lg font-bold mb-3">編輯耗材、照片與批次到期日</h3>
@@ -126,7 +123,6 @@
     </div>
 </div>
 
-<!-- Add Item Modal -->
 <div id="add-modal" class="hidden fixed inset-0 bg-[var(--ink)]/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-[var(--card)] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-[var(--line)] max-h-[85vh] overflow-y-auto">
         <h3 class="font-display text-lg font-bold mb-1">新增防護室耗材品項</h3>
@@ -149,7 +145,7 @@
                 </div>
             </div>
             <div>
-                <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">照片圖片網址 (URL)</label>
+                <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">照片網址 (選填)</label>
                 <input type="url" id="add-photo-input" placeholder="https://..." class="w-full px-3.5 py-2.5 field-input text-xs">
             </div>
             <div class="grid grid-cols-2 gap-3">
@@ -187,6 +183,31 @@
 </footer>
 
 <script>
+    
+    // 【管理員帳號與密碼設定】可在這裡直接修改
+    const ADMIN_CREDENTIALS = { user: 'user', pass: 'wanti1211' };
+
+    // 【分類標籤顏色設定 (背景色 bg 與字體顏色 text)】
+    // 您可以在此直接修改或增加任何分類的背景與文字配色
+    const CATEGORY_CUSTOM_COLORS = {
+        '耗材': { bg: '#E6CAFF', text: '#5B00AE' },
+        '動態貼布': { bg: '#FFE4CA', text: '#D26900' },
+        '訓練器材': { bg: '#D1E9E9', text: '#336666' },
+        '運動貼布': { bg: '#FFD2D2', text: '#EA4335' },
+        '彈性繃帶': { bg: '#DDDDFF', text: '#0000E3' },
+        '肌貼': { bg: '#EBD6D6', text: '#613030' },
+    };
+
+    const FALLBACK_PALETTE = [
+        { bg: '#4285F4', text: '#FFFFFF' },
+        { bg: '#34A853', text: '#FFFFFF' },
+        { bg: '#EA4335', text: '#FFFFFF' },
+        { bg: '#FBBC05', text: '#1F2430' },
+        { bg: '#8E44AD', text: '#FFFFFF' },
+        { bg: '#16A085', text: '#FFFFFF' },
+        { bg: '#E67E22', text: '#FFFFFF' }
+    ];
+
     let currentView = 'visitor'; 
     let isLoggedIn = false;
     let isLoadingData = true;
@@ -194,17 +215,20 @@
     let activeItemIdForEdit = null;
     let adminCategoryFilter = 'all';
 
-    const ADMIN_CREDENTIALS = { user: 'user', pass: 'wanti1211' };
-
-    const PALETTE_COLORS = ['#4285F4', '#34A853', '#EA4335', '#FBBC05', '#8E44AD', '#16A085', '#E67E22'];
-    function categoryColor(cat) {
+    function categoryStyle(cat) {
+        const key = cat || '未分類';
+        if (CATEGORY_CUSTOM_COLORS[key]) {
+            return `background:${CATEGORY_CUSTOM_COLORS[key].bg}; color:${CATEGORY_CUSTOM_COLORS[key].text};`;
+        }
         let hash = 0;
-        for (let i = 0; i < (cat || '').length; i++) hash = cat.charCodeAt(i) + ((hash << 5) - hash);
-        return PALETTE_COLORS[Math.abs(hash) % PALETTE_COLORS.length];
+        for (let i = 0; i < key.length; i++) hash = key.charCodeAt(i) + ((hash << 5) - hash);
+        const p = FALLBACK_PALETTE[Math.abs(hash) % FALLBACK_PALETTE.length];
+        return `background:${p.bg}; color:${p.text};`;
     }
+
     function categoryTag(cat) {
-        const bg = categoryColor(cat);
-        return `<span class="tag-pill" style="background:${bg};color:#fff">${cat || '未分類'}</span>`;
+        const styleStr = categoryStyle(cat);
+        return `<span class="tag-pill" style="${styleStr}">${cat || '未分類'}</span>`;
     }
 
     const DEFAULT_WEBHOOK_URL = 'https://shelter-proxy.ntustssat.workers.dev';
@@ -420,10 +444,9 @@
             const qty = visitorCart[item.id] || 0;
             const isOnlyWarehouse = item.name.includes('僅內倉') || item.category === '防護裝備';
             const low = !isOnlyWarehouse && item.outerStock <= (item.minOuter ?? 2);
-            const hasPhoto = item.photoUrl && item.photoUrl.trim() !== '';
             
             return `
-                <div class="tape-card paper-card p-4 flex flex-col justify-between" style="--tape-color:${categoryColor(item.category)}">
+                <div class="tape-card paper-card p-4 flex flex-col justify-between" style="--tape-color:${CATEGORY_CUSTOM_COLORS[item.category]?.bg || '#4285F4'}">
                     <div>
                         <div class="flex justify-between items-start gap-2 mb-1.5 mt-1">
                             <button type="button" onclick="openPhotoModal('${item.id}')" class="text-left font-semibold text-[var(--ink)] text-sm leading-snug hover:text-[var(--steel)] underline decoration-dotted underline-offset-4 cursor-pointer" title="點擊檢視照片">
@@ -602,6 +625,7 @@
         container.innerHTML = `
             <div class="space-y-6 view-enter">
                 ${expiryAlertHtml}
+                
                 <div class="paper-card overflow-hidden">
                     <div class="p-5 border-b border-[var(--line)] flex flex-wrap justify-between items-center gap-4">
                         <div>
@@ -715,7 +739,9 @@
 
     function handleLoginSubmit(event) {
         event.preventDefault();
-        if (document.getElementById('login-user').value === ADMIN_CREDENTIALS.user && document.getElementById('login-pass').value === ADMIN_CREDENTIALS.pass) {
+        const uInput = document.getElementById('login-user').value;
+        const pInput = document.getElementById('login-pass').value;
+        if (uInput === ADMIN_CREDENTIALS.user && pInput === ADMIN_CREDENTIALS.pass) {
             isLoggedIn = true;
             showToast('登入成功！');
             switchView('admin');
@@ -870,10 +896,7 @@
                     <div><label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">分類標籤</label><input type="text" id="edit-cat" value="${item.category || ''}" class="w-full px-3 py-2 field-input text-xs" required></div>
                     <div><label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">單位</label><input type="text" id="edit-unit" value="${item.unit}" class="w-full px-3 py-2 field-input text-xs" required></div>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">照片圖片網址 (URL)</label>
-                    <input type="url" id="edit-photo" value="${item.photoUrl || ''}" placeholder="https://..." class="w-full px-3 py-2 field-input text-xs">
-                </div>
+                <div><label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">照片網址</label><input type="url" id="edit-photo" value="${item.photoUrl || ''}" placeholder="https://..." class="w-full px-3 py-2 field-input text-xs"></div>
                 <div class="grid grid-cols-2 gap-2">
                     <div><label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">倉庫庫存 (內倉)</label><input type="number" id="edit-wh" min="0" value="${item.warehouseStock}" class="w-full px-3 py-2 field-input text-xs font-mono font-bold" required></div>
                     <div><label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">外區現貨 (工作台)</label><input type="number" id="edit-out" min="0" value="${item.outerStock}" class="w-full px-3 py-2 field-input text-xs font-mono font-bold" required></div>
