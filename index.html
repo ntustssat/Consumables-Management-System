@@ -85,7 +85,7 @@
         </div>
         <div class="flex items-center gap-2 flex-wrap">
             <button id="nav-visitor-btn" onclick="switchView('visitor')" class="nav-tab px-3.5 py-2 rounded-lg text-xs font-semibold flex items-center gap-1.5">
-                <i data-lucide="clipboard-list" class="w-4 h-4"></i> 訪客登記（外區領用）
+                <i data-lucide="clipboard-list" class="w-4 h-4"></i> 訪客登記
             </button>
             <div id="auth-nav-buttons" class="flex items-center gap-2"></div>
         </div>
@@ -184,11 +184,10 @@
 
 <script>
     
-    // 【管理員帳號與密碼設定】可在這裡直接修改
+    // 【管理員帳號與密碼設定】
     const ADMIN_CREDENTIALS = { user: 'user', pass: 'wanti1211' };
 
-    // 【分類標籤顏色設定 (背景色 bg 與字體顏色 text)】
-    // 您可以在此直接修改或增加任何分類的背景與文字配色
+    // 【分類標籤顏色設定】
     const CATEGORY_CUSTOM_COLORS = {
         '耗材': { bg: '#E6CAFF', text: '#5B00AE' },
         '動態貼布': { bg: '#FFE4CA', text: '#D26900' },
@@ -209,6 +208,7 @@
     ];
 
     let currentView = 'visitor'; 
+    let visitorMode = 'outer'; // 'outer' (外區領用) 或 'warehouse' (倉庫領用)
     let isLoggedIn = false;
     let isLoadingData = true;
     let activeItemIdForTransfer = null;
@@ -266,7 +266,7 @@
         { id: 'item-2', name: '重彈 2 寸', category: '彈性繃帶', warehouseStock: 40, outerStock: 8, unit: '卷', minOuter: 2, minTotal: 8, photoUrl: '', batches: [{ id: 'b2', qty: 40, expiryDate: '2027-01-15', location: 'warehouse' }, { id: 'b2_out', qty: 8, expiryDate: '2027-01-15', location: 'outer' }] },
         { id: 'item-3', name: '導膠', category: '急救藥品', warehouseStock: 12, outerStock: 3, unit: '瓶', minOuter: 1, minTotal: 4, photoUrl: 'https://medical-goods.com.tw/upload/product/photo_m_175525180112.jpg', batches: [{ id: 'b3', qty: 12, expiryDate: '2028-12-31', location: 'warehouse' }, { id: 'b3_out', qty: 3, expiryDate: '2028-12-31', location: 'outer' }] },
         { id: 'item-4', name: '白貼 1.5 寸', category: '運動白貼', warehouseStock: 60, outerStock: 12, unit: '卷', minOuter: 4, minTotal: 15, photoUrl: '', batches: [{ id: 'b4', qty: 60, expiryDate: '2025-06-08', location: 'warehouse' }, { id: 'b4_out', qty: 12, expiryDate: '2025-06-08', location: 'outer' }] },
-        { id: 'item-5', name: '防護手套', category: '防護裝備', warehouseStock: 200, outerStock: 30, unit: '副', minOuter: 10, minTotal: 50, photoUrl: '', batches: [{ id: 'b5', qty: 200, expiryDate: '2030-01-01', location: 'warehouse' }, { id: 'b5_out', qty: 30, expiryDate: '2030-01-01', location: 'outer' }] }
+        { id: 'item-5', name: '防護手套 (僅內倉)', category: '防護裝備', warehouseStock: 200, outerStock: 0, unit: '副', minOuter: 10, minTotal: 50, photoUrl: '', batches: [{ id: 'b5', qty: 200, expiryDate: '2030-01-01', location: 'warehouse' }] }
     ];
 
     let items = [];
@@ -402,6 +402,11 @@
     }
 
     function switchView(view) { currentView = view; render(); }
+    function setVisitorMode(mode) {
+        visitorMode = mode;
+        visitorCart = {}; // 切換模式時清空購物車以免混淆
+        render();
+    }
 
     function render() {
         const container = document.getElementById('main-content-area');
@@ -438,12 +443,18 @@
     }
 
     function renderVisitorView(container) {
-        const visitorItems = items.filter(i => (i.outerStock || 0) > 0);
+        // 根據選擇的模式過濾品項
+        let displayItems = [];
+        if (visitorMode === 'outer') {
+            displayItems = items.filter(i => (i.outerStock || 0) > 0);
+        } else {
+            displayItems = items.filter(i => (i.warehouseStock || 0) > 0);
+        }
 
-        let itemsHtml = visitorItems.length === 0 ? '<p class="text-xs text-[var(--ink-faint)] italic col-span-2">目前外區工作台無可直接領用耗材，請洽防護員協助。</p>' : visitorItems.map(item => {
+        let itemsHtml = displayItems.length === 0 ? `<p class="text-xs text-[var(--ink-faint)] italic col-span-2">目前${visitorMode === 'outer' ? '外區工作台' : '倉庫'}無可領用耗材。</p>` : displayItems.map(item => {
             const qty = visitorCart[item.id] || 0;
-            const isOnlyWarehouse = item.name.includes('僅內倉') || item.category === '防護裝備';
-            const low = !isOnlyWarehouse && item.outerStock <= (item.minOuter ?? 2);
+            const stockVal = visitorMode === 'outer' ? item.outerStock : item.warehouseStock;
+            const low = visitorMode === 'outer' && stockVal <= (item.minOuter ?? 2);
             
             return `
                 <div class="tape-card paper-card p-4 flex flex-col justify-between" style="--tape-color:${CATEGORY_CUSTOM_COLORS[item.category]?.bg || '#4285F4'}">
@@ -455,7 +466,7 @@
                             ${categoryTag(item.category)}
                         </div>
                         <div class="text-xs text-[var(--ink-soft)] mb-3 flex items-center gap-2">
-                            <span class="font-mono font-semibold ${low ? 'text-[var(--ochre)]' : 'text-[var(--moss)]'}">外區現貨: ${item.outerStock} ${item.unit}</span>
+                            <span class="font-mono font-semibold ${low ? 'text-[var(--ochre)]' : 'text-[var(--moss)]'}">${visitorMode === 'outer' ? '外區現貨' : '倉庫現貨'}: ${stockVal} ${item.unit}</span>
                             ${low ? '<span class="tag-pill" style="background:var(--ochre);color:var(--ink)">量少</span>' : ''}
                         </div>
                     </div>
@@ -479,9 +490,16 @@
             <div class="space-y-6 view-enter">
                 <div class="bg-[var(--steel)] text-white p-6 rounded-2xl shadow-lg flex flex-col md:flex-row justify-between items-center gap-4">
                     <div>
-                        <div class="inline-block bg-white/20 text-white text-[11px] px-3 py-1 rounded-full font-semibold font-mono mb-2">外區工作台・快速領用登記</div>
-                        <h2 class="font-display text-2xl font-bold">防護室耗材領用登記</h2>
-                        <p class="text-white/70 text-sm mt-1">此區僅顯示放置於**外區工作台**的品項。點擊品項名稱可檢視照片，若現貨不足系統將自動由內倉調撥。</p>
+                        <div class="inline-flex items-center gap-2 mb-2 flex-wrap">
+                            <button type="button" onclick="setVisitorMode('outer')" class="px-3 py-1 rounded-full text-xs font-bold transition ${visitorMode === 'outer' ? 'bg-white text-[var(--steel-deep)] shadow' : 'bg-white/20 text-white hover:bg-white/30'}">
+                                外區領用（優先）
+                            </button>
+                            <button type="button" onclick="setVisitorMode('warehouse')" class="px-3 py-1 rounded-full text-xs font-bold transition ${visitorMode === 'warehouse' ? 'bg-white text-[var(--steel-deep)] shadow' : 'bg-white/20 text-white hover:bg-white/30'}">
+                                倉庫領用
+                            </button>
+                        </div>
+                        <h2 class="font-display text-2xl font-bold">${visitorMode === 'outer' ? '外區工作台領用登記' : '倉庫直接領用登記'}</h2>
+                        <p class="text-white/80 text-sm mt-1 font-medium">⚠️ 領用之前請務必告知林老師</p>
                     </div>
                 </div>
 
@@ -489,7 +507,7 @@
                     <div class="lg:col-span-2 space-y-4">
                         <div class="paper-card p-5">
                             <h3 class="font-display font-bold text-[var(--ink)] text-base mb-4 flex items-center gap-2">
-                                <i data-lucide="package" class="w-5 h-5 text-[var(--steel)]"></i> 外區現貨列表
+                                <i data-lucide="package" class="w-5 h-5 text-[var(--steel)]"></i> ${visitorMode === 'outer' ? '外區現貨列表' : '倉庫現貨列表'}
                             </h3>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">${itemsHtml}</div>
                         </div>
@@ -498,7 +516,7 @@
                     <div class="space-y-4">
                         <div class="paper-card p-5 sticky top-24">
                             <h3 class="font-display font-bold text-[var(--ink)] text-base mb-4 flex items-center gap-2">
-                                <i data-lucide="clipboard-check" class="w-5 h-5 text-[var(--steel)]"></i> 確認登記單
+                                <i data-lucide="clipboard-check" class="w-5 h-5 text-[var(--steel)]"></i> 確認登記單 (${visitorMode === 'outer' ? '外區' : '倉庫'})
                             </h3>
                             <form onsubmit="handleVisitorSubmit(event)" class="space-y-3">
                                 <div>
@@ -514,8 +532,9 @@
                                     <ul id="cart-summary-list" class="space-y-1.5 max-h-40 overflow-y-auto pr-1">${cartListHtml}</ul>
                                 </div>
                                 <button type="submit" class="w-full btn-primary font-semibold py-3 px-4 rounded-xl shadow transition flex items-center justify-center gap-2 text-sm mt-4">
-                                    確認送出領用
+                                    確認送出領用 (${visitorMode === 'outer' ? '外區' : '倉庫'})
                                 </button>
+                                <p class="text-[11px] text-[var(--ink-faint)] text-center mt-2">送出後將自動更新庫存並記錄至後台動態表</p>
                             </form>
                         </div>
                     </div>
@@ -720,19 +739,60 @@
             let item = items.find(i => i.id === itemId);
             if (!item) continue;
             let needed = parseInt(reqQty);
-            let fromOuter = Math.min(item.outerStock, needed);
-            let remainder = needed - fromOuter;
-            let fromWarehouse = Math.min(item.warehouseStock, remainder);
+            let originalNeeded = needed;
 
-            item.outerStock -= fromOuter;
-            item.warehouseStock -= fromWarehouse;
-            usedSummary.push({ name: item.name, qty: fromOuter + fromWarehouse });
+            if (visitorMode === 'outer') {
+                // 外區領用：優先從外區批次扣除，不足則從倉庫扣除
+                if (item.batches && item.batches.length > 0) {
+                    for (let b of item.batches) {
+                        if (b.location === 'outer' && b.qty > 0 && needed > 0) {
+                            let take = Math.min(b.qty, needed);
+                            b.qty -= take;
+                            needed -= take;
+                        }
+                    }
+                    for (let b of item.batches) {
+                        if (b.location === 'warehouse' && b.qty > 0 && needed > 0) {
+                            let take = Math.min(b.qty, needed);
+                            b.qty -= take;
+                            needed -= take;
+                        }
+                    }
+                    item.batches = item.batches.filter(b => b.qty > 0);
+                    recomputeItemStock(item);
+                } else {
+                    let fromOuter = Math.min(item.outerStock, needed);
+                    let remainder = needed - fromOuter;
+                    let fromWarehouse = Math.min(item.warehouseStock, remainder);
+                    item.outerStock -= fromOuter;
+                    item.warehouseStock -= fromWarehouse;
+                }
+            } else {
+                // 倉庫領用：直接從倉庫批次（warehouse）扣除
+                if (item.batches && item.batches.length > 0) {
+                    for (let b of item.batches) {
+                        if (b.location === 'warehouse' && b.qty > 0 && needed > 0) {
+                            let take = Math.min(b.qty, needed);
+                            b.qty -= take;
+                            needed -= take;
+                        }
+                    }
+                    item.batches = item.batches.filter(b => b.qty > 0);
+                    recomputeItemStock(item);
+                } else {
+                    let fromWarehouse = Math.min(item.warehouseStock, needed);
+                    item.warehouseStock -= fromWarehouse;
+                }
+            }
+
+            usedSummary.push({ name: item.name, qty: originalNeeded });
         }
 
-        const newLog = { id: 'log-' + Date.now(), timestamp: new Date().toLocaleString(), userName: name, purpose: `訪客領用：${purpose}`, itemsUsed: usedSummary };
+        const modeLabel = visitorMode === 'outer' ? '外區領用' : '倉庫直領';
+        const newLog = { id: 'log-' + Date.now(), timestamp: new Date().toLocaleString(), userName: name, purpose: `${modeLabel}：${purpose}`, itemsUsed: usedSummary };
         logs.unshift(newLog);
         visitorCart = {};
-        showToast('領用登記成功！');
+        showToast('領用登記成功！已同步通知林老師與雲端');
         syncToGoogleSheet('VISITOR_CHECKOUT', newLog);
         render();
     }
