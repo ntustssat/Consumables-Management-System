@@ -77,7 +77,7 @@
             </div>
             <div>
                 <h1 class="font-display text-lg font-bold tracking-tight leading-tight">防護室耗材管理系統</h1>
-                <p class="text-[11px] text-white/45 flex items-center gap-1 font-mono">
+                <p class="text-[11px] text-white/70 flex items-center gap-1 font-mono">
                     <span id="sheet-status-dot" class="w-1.5 h-1.5 rounded-full bg-[var(--ink-faint)]"></span>
                     <span id="sheet-status-text">正在連接 Google 試算表…</span>
                 </p>
@@ -94,6 +94,7 @@
 
 <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6" id="main-content-area"></main>
 
+<!-- 照片檢視彈窗 -->
 <div id="photo-modal" class="hidden fixed inset-0 bg-[var(--ink)]/60 backdrop-blur-sm z-[70] flex items-center justify-center p-4">
     <div class="bg-[var(--card)] rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-[var(--line)] space-y-4">
         <div class="flex justify-between items-center">
@@ -109,6 +110,7 @@
     </div>
 </div>
 
+<!-- 庫存調撥彈窗 -->
 <div id="transfer-modal" class="hidden fixed inset-0 bg-[var(--ink)]/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-[var(--card)] rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-[var(--line)] max-h-[85vh] overflow-y-auto">
         <h3 class="font-display text-lg font-bold mb-3">庫存批次雙向調撥</h3>
@@ -116,27 +118,29 @@
     </div>
 </div>
 
+<!-- 編輯耗材與採購狀態彈窗 -->
 <div id="edit-modal" class="hidden fixed inset-0 bg-[var(--ink)]/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-[var(--card)] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-[var(--line)] max-h-[85vh] overflow-y-auto">
-        <h3 class="font-display text-lg font-bold mb-3">編輯耗材、照片與批次到期日</h3>
+        <h3 class="font-display text-lg font-bold mb-3">編輯耗材、採購狀態與批次</h3>
         <div id="edit-modal-content"></div>
     </div>
 </div>
 
+<!-- 新增耗材品項彈窗 -->
 <div id="add-modal" class="hidden fixed inset-0 bg-[var(--ink)]/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-[var(--card)] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-[var(--line)] max-h-[85vh] overflow-y-auto">
         <h3 class="font-display text-lg font-bold mb-1">新增防護室耗材品項</h3>
         <form onsubmit="handleAddSubmit(event)" class="space-y-4 mt-3">
             <div>
                 <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">耗材名稱 (若僅內倉請在名稱標註「僅內倉」)</label>
-                <input type="text" id="add-name-input" placeholder="例如：導膠" class="w-full px-3.5 py-2.5 field-input text-sm" required>
+                <input type="text" id="add-name-input" placeholder="例如：白貼 2 寸" class="w-full px-3.5 py-2.5 field-input text-sm" required>
             </div>
             <div class="grid grid-cols-2 gap-3">
                 <div>
                     <label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">分類標籤</label>
                     <input type="text" id="add-cat-input" value="彈性繃帶" list="category-suggestions" class="w-full px-3.5 py-2.5 field-input text-xs" required>
                     <datalist id="category-suggestions">
-                        <option value="彈性繃帶"><option value="運動白貼"><option value="肌內效貼布"><option value="動力貼布"><option value="教學耗材"><option value="防護裝備"><option value="急救藥品">
+                        <option value="彈性繃帶"><option value="運動白貼"><option value="肌內效貼布"><option value="動態貼布"><option value="教學耗材"><option value="防護裝備"><option value="急救藥品"><option value="訓練器材">
                     </datalist>
                 </div>
                 <div>
@@ -168,6 +172,21 @@
                     <input type="number" id="add-min-total" value="5" min="0" class="w-full px-3.5 py-2 field-input text-xs font-bold font-mono">
                 </div>
             </div>
+
+            <!-- 正在採購項目選項 -->
+            <div class="bg-indigo-50/70 border border-indigo-200/80 rounded-xl p-3 space-y-2">
+                <div class="flex items-center justify-between">
+                    <label class="text-xs font-bold text-indigo-900 flex items-center gap-1.5 cursor-pointer">
+                        <input type="checkbox" id="add-is-purchasing" class="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-indigo-300">
+                        <span>🛒 標記為「正在採購中」</span>
+                    </label>
+                    <span class="text-[10px] text-indigo-600 font-medium">採購進度追蹤</span>
+                </div>
+                <div>
+                    <input type="text" id="add-purchasing-note" placeholder="採購備註（例：已叫貨 3 箱、預計週五到）" class="w-full px-3 py-1.5 field-input text-xs bg-white">
+                </div>
+            </div>
+
             <div class="flex gap-3 pt-2">
                 <button type="button" onclick="closeModal('add-modal')" class="flex-1 btn-ghost py-2.5 rounded-xl text-xs font-semibold">取消</button>
                 <button type="submit" class="flex-1 btn-primary py-2.5 rounded-xl text-xs font-semibold">確認新增</button>
@@ -183,18 +202,21 @@
 </footer>
 
 <script>
-    
     // 【管理員帳號與密碼設定】
     const ADMIN_CREDENTIALS = { user: 'user', pass: 'wanti1211' };
 
-    // 【分類標籤顏色設定】
+    // 【分類標籤自訂色彩】
     const CATEGORY_CUSTOM_COLORS = {
         '耗材': { bg: '#E6CAFF', text: '#5B00AE' },
         '動態貼布': { bg: '#FFE4CA', text: '#D26900' },
         '訓練器材': { bg: '#D1E9E9', text: '#336666' },
         '運動貼布': { bg: '#FFD2D2', text: '#EA4335' },
+        '運動白貼': { bg: '#FFE3E3', text: '#C5221F' },
         '彈性繃帶': { bg: '#DDDDFF', text: '#0000E3' },
         '肌貼': { bg: '#EBD6D6', text: '#613030' },
+        '肌內效貼布': { bg: '#EBD6D6', text: '#613030' },
+        '急救藥品': { bg: '#D4EDDA', text: '#155724' },
+        '防護裝備': { bg: '#FFF3CD', text: '#856404' },
     };
 
     const FALLBACK_PALETTE = [
@@ -207,13 +229,32 @@
         { bg: '#E67E22', text: '#FFFFFF' }
     ];
 
-    let currentView = 'visitor'; 
+    let currentView = 'visitor'; // 'visitor', 'login', 'admin', 'logs'
     let visitorMode = 'outer'; // 'outer' (外區領用) 或 'warehouse' (倉庫領用)
     let isLoggedIn = false;
     let isLoadingData = true;
     let activeItemIdForTransfer = null;
     let activeItemIdForEdit = null;
     let adminCategoryFilter = 'all';
+    let adminProcureFilter = 'all'; // 'all', 'purchasing', 'not_purchasing'
+    let logTypeFilter = 'all';      // 'all', 'checkout', 'transfer'
+    let logSearchKeyword = '';
+
+    const DEFAULT_WEBHOOK_URL = 'https://shelter-proxy.ntustssat.workers.dev';
+    const sheetConfig = { spreadsheetId: '', webhookUrl: DEFAULT_WEBHOOK_URL, lastSynced: '尚未同步' };
+    const EXPIRY_WARNING_DAYS = 60;
+
+    const SEED_ITEMS = [
+        { id: 'item-1', name: '輕彈 1.5 寸', category: '彈性繃帶', warehouseStock: 50, outerStock: 10, unit: '卷', minOuter: 3, minTotal: 10, photoUrl: '', isPurchasing: false, purchasingNote: '', batches: [{ id: 'b1', qty: 50, expiryDate: '2027-06-01', location: 'warehouse' }, { id: 'b1_out', qty: 10, expiryDate: '2027-06-01', location: 'outer' }] },
+        { id: 'item-2', name: '重彈 2 寸', category: '彈性繃帶', warehouseStock: 40, outerStock: 8, unit: '卷', minOuter: 2, minTotal: 8, photoUrl: '', isPurchasing: true, purchasingNote: '已請購 2 箱，預計下週二到', batches: [{ id: 'b2', qty: 40, expiryDate: '2027-01-15', location: 'warehouse' }, { id: 'b2_out', qty: 8, expiryDate: '2027-01-15', location: 'outer' }] },
+        { id: 'item-3', name: '導膠', category: '急救藥品', warehouseStock: 12, outerStock: 3, unit: '瓶', minOuter: 1, minTotal: 4, photoUrl: 'https://medical-goods.com.tw/upload/product/photo_m_175525180112.jpg', isPurchasing: false, purchasingNote: '', batches: [{ id: 'b3', qty: 12, expiryDate: '2028-12-31', location: 'warehouse' }, { id: 'b3_out', qty: 3, expiryDate: '2028-12-31', location: 'outer' }] },
+        { id: 'item-4', name: '白貼 1.5 寸', category: '運動白貼', warehouseStock: 60, outerStock: 12, unit: '卷', minOuter: 4, minTotal: 15, photoUrl: '', isPurchasing: true, purchasingNote: '招標採購中', batches: [{ id: 'b4', qty: 60, expiryDate: '2025-06-08', location: 'warehouse' }, { id: 'b4_out', qty: 12, expiryDate: '2025-06-08', location: 'outer' }] },
+        { id: 'item-5', name: '防護手套 (僅內倉)', category: '防護裝備', warehouseStock: 200, outerStock: 0, unit: '副', minOuter: 10, minTotal: 50, photoUrl: '', isPurchasing: false, purchasingNote: '', batches: [{ id: 'b5', qty: 200, expiryDate: '2030-01-01', location: 'warehouse' }] }
+    ];
+
+    let items = [];
+    let logs = [];
+    let visitorCart = {};
 
     function categoryStyle(cat) {
         const key = cat || '未分類';
@@ -231,9 +272,14 @@
         return `<span class="tag-pill" style="${styleStr}">${cat || '未分類'}</span>`;
     }
 
-    const DEFAULT_WEBHOOK_URL = 'https://shelter-proxy.ntustssat.workers.dev';
-    const sheetConfig = { spreadsheetId: '', webhookUrl: DEFAULT_WEBHOOK_URL, lastSynced: '尚未同步' };
-    const EXPIRY_WARNING_DAYS = 60;
+    function procurementBadge(item) {
+        if (!item.isPurchasing) return '';
+        const note = item.purchasingNote ? ` title="採購進度：${item.purchasingNote}"` : '';
+        return `
+            <span ${note} class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-indigo-100 text-indigo-800 border border-indigo-200 shrink-0">
+                <i data-lucide="shopping-cart" class="w-3 h-3"></i>正在採購中${item.purchasingNote ? `<span class="hidden sm:inline font-normal text-[10px] text-indigo-600">(${item.purchasingNote})</span>` : ''}
+            </span>`;
+    }
 
     function parseDateString(dateStr) {
         if (!dateStr) return null;
@@ -261,17 +307,46 @@
         return days < 0 ? `已過期 ${Math.abs(days)} 天` : `剩 ${days} 天`;
     }
 
-    const SEED_ITEMS = [
-        { id: 'item-1', name: '輕彈 1.5 寸', category: '彈性繃帶', warehouseStock: 50, outerStock: 10, unit: '卷', minOuter: 3, minTotal: 10, photoUrl: '', batches: [{ id: 'b1', qty: 50, expiryDate: '2027-06-01', location: 'warehouse' }, { id: 'b1_out', qty: 10, expiryDate: '2027-06-01', location: 'outer' }] },
-        { id: 'item-2', name: '重彈 2 寸', category: '彈性繃帶', warehouseStock: 40, outerStock: 8, unit: '卷', minOuter: 2, minTotal: 8, photoUrl: '', batches: [{ id: 'b2', qty: 40, expiryDate: '2027-01-15', location: 'warehouse' }, { id: 'b2_out', qty: 8, expiryDate: '2027-01-15', location: 'outer' }] },
-        { id: 'item-3', name: '導膠', category: '急救藥品', warehouseStock: 12, outerStock: 3, unit: '瓶', minOuter: 1, minTotal: 4, photoUrl: 'https://medical-goods.com.tw/upload/product/photo_m_175525180112.jpg', batches: [{ id: 'b3', qty: 12, expiryDate: '2028-12-31', location: 'warehouse' }, { id: 'b3_out', qty: 3, expiryDate: '2028-12-31', location: 'outer' }] },
-        { id: 'item-4', name: '白貼 1.5 寸', category: '運動白貼', warehouseStock: 60, outerStock: 12, unit: '卷', minOuter: 4, minTotal: 15, photoUrl: '', batches: [{ id: 'b4', qty: 60, expiryDate: '2025-06-08', location: 'warehouse' }, { id: 'b4_out', qty: 12, expiryDate: '2025-06-08', location: 'outer' }] },
-        { id: 'item-5', name: '防護手套 (僅內倉)', category: '防護裝備', warehouseStock: 200, outerStock: 0, unit: '副', minOuter: 10, minTotal: 50, photoUrl: '', batches: [{ id: 'b5', qty: 200, expiryDate: '2030-01-01', location: 'warehouse' }] }
-    ];
+    function formatLogTimestamp(ts) {
+        if (!ts) return '';
+        const d = new Date(ts);
+        if (!isNaN(d.getTime())) {
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            const h = String(d.getHours()).padStart(2, '0');
+            const min = String(d.getMinutes()).padStart(2, '0');
+            return `${y}/${m}/${day} ${h}:${min}`;
+        }
+        return String(ts);
+    }
 
-    let items = [];
-    let logs = [];
-    let visitorCart = {};
+    // 自動偵測試算表欄位錯位並標準化
+    function normalizeLog(l) {
+        let id = l.id || '';
+        let timestamp = l.timestamp || '';
+        let userName = l.userName || '';
+        let purpose = l.purpose || '';
+        let itemsUsed = l.itemsUsed || [];
+
+        // 若 timestamp 欄位值為 log- 開頭，表示欄位錯位 (ID 在第 0 欄)
+        if (typeof timestamp === 'string' && timestamp.startsWith('log-')) {
+            id = timestamp;
+            timestamp = l.userName || '';
+            userName = l.purpose || '';
+            purpose = typeof l.itemsUsed === 'string' ? l.itemsUsed : (Array.isArray(l.itemsUsed) ? (l.itemsUsed[0]?.name || '') : '');
+            itemsUsed = [];
+        }
+
+        return {
+            id: id,
+            timestamp: timestamp,
+            displayTime: formatLogTimestamp(timestamp),
+            userName: userName || '未具名',
+            purpose: purpose || '一般領用',
+            itemsUsed: Array.isArray(itemsUsed) ? itemsUsed : []
+        };
+    }
 
     function updateSheetStatusUI(connected, message) {
         const dot = document.getElementById('sheet-status-dot');
@@ -401,10 +476,33 @@
         indicator.classList.add('hidden'); indicator.classList.remove('flex');
     }
 
-    function switchView(view) { currentView = view; render(); }
+    function switchView(view) {
+        if ((view === 'admin' || view === 'logs') && !isLoggedIn) {
+            showToast('請先以管理員身份登入', 'warning');
+            currentView = 'login';
+        } else {
+            currentView = view;
+        }
+        render();
+    }
+
     function setVisitorMode(mode) {
         visitorMode = mode;
-        visitorCart = {}; // 切換模式時清空購物車以免混淆
+        visitorCart = {}; 
+        render();
+    }
+
+    function toggleProcureStatus(itemId) {
+        const item = items.find(i => i.id === itemId);
+        if (!item) return;
+        item.isPurchasing = !item.isPurchasing;
+        if (!item.isPurchasing) {
+            item.purchasingNote = '';
+            showToast(`「${item.name}」已取消採購標記`, 'info');
+        } else {
+            showToast(`「${item.name}」已標記為正在採購中！`, 'success');
+        }
+        syncToGoogleSheet('UPDATE');
         render();
     }
 
@@ -420,7 +518,10 @@
         if (isLoggedIn) {
             authNav.innerHTML = `
                 <button onclick="switchView('admin')" class="nav-tab px-3.5 py-2 rounded-lg text-xs font-semibold flex items-center gap-1.5 ${currentView === 'admin' ? 'active' : ''}">
-                    <i data-lucide="warehouse" class="w-4 h-4"></i> 管理員後台${alertBadge}
+                    <i data-lucide="warehouse" class="w-4 h-4"></i> 庫存管理${alertBadge}
+                </button>
+                <button onclick="switchView('logs')" class="nav-tab px-3.5 py-2 rounded-lg text-xs font-semibold flex items-center gap-1.5 ${currentView === 'logs' ? 'active' : ''}">
+                    <i data-lucide="clipboard-list" class="w-4 h-4"></i> 異動紀錄
                 </button>
                 <button onclick="handleLogout()" class="px-3 py-2 bg-white/10 text-white hover:bg-[var(--rose)] rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
                     <i data-lucide="log-out" class="w-4 h-4"></i> 登出
@@ -432,18 +533,28 @@
                 </button>`;
         }
 
-        if (isLoadingData) { container.innerHTML = `<div class="p-10 text-center text-xs text-[var(--ink-faint)]">資料載入中…</div>`; return; }
+        if (isLoadingData) { 
+            container.innerHTML = `<div class="p-10 text-center text-xs text-[var(--ink-faint)]">資料載入中…</div>`; 
+            return; 
+        }
 
         if (currentView === 'visitor') renderVisitorView(container);
         else if (currentView === 'login') renderLoginView(container);
         else if (currentView === 'admin' && isLoggedIn) renderAdminView(container);
-        else renderVisitorView(container);
+        else if (currentView === 'logs' && isLoggedIn) renderLogsView(container);
+        else {
+            if (currentView === 'admin' || currentView === 'logs') {
+                showToast('請先以管理員身份登入', 'warning');
+                switchView('login');
+            } else {
+                renderVisitorView(container);
+            }
+        }
 
         safeCreateIcons();
     }
 
     function renderVisitorView(container) {
-        // 根據選擇的模式過濾品項
         let displayItems = [];
         if (visitorMode === 'outer') {
             displayItems = items.filter(i => (i.outerStock || 0) > 0);
@@ -463,19 +574,23 @@
                             <button type="button" onclick="openPhotoModal('${item.id}')" class="text-left font-semibold text-[var(--ink)] text-sm leading-snug hover:text-[var(--steel)] underline decoration-dotted underline-offset-4 cursor-pointer" title="點擊檢視照片">
                                 ${item.name} <i data-lucide="image" class="w-3.5 h-3.5 inline text-[var(--steel)] ml-1"></i>
                             </button>
-                            ${categoryTag(item.category)}
+                            <div class="flex flex-col items-end gap-1">
+                                ${categoryTag(item.category)}
+                                ${item.isPurchasing ? procurementBadge(item) : ''}
+                            </div>
                         </div>
-                        <div class="text-xs text-[var(--ink-soft)] mb-3 flex items-center gap-2">
+                        <div class="text-xs text-[var(--ink-soft)] mb-3 flex items-center gap-2 flex-wrap">
                             <span class="font-mono font-semibold ${low ? 'text-[var(--ochre)]' : 'text-[var(--moss)]'}">${visitorMode === 'outer' ? '外區現貨' : '倉庫現貨'}: ${stockVal} ${item.unit}</span>
                             ${low ? '<span class="tag-pill" style="background:var(--ochre);color:var(--ink)">量少</span>' : ''}
+                            ${item.isPurchasing && low ? '<span class="text-[10px] text-indigo-600 font-medium bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-100">已在採購中免擔心</span>' : ''}
                         </div>
                     </div>
                     <div class="flex items-center justify-between bg-[var(--paper)] p-2 rounded-lg border border-[var(--line)]">
                         <span class="text-xs font-medium text-[var(--ink-soft)]">領用數量</span>
                         <div class="flex items-center gap-2">
-                            <button type="button" onclick="updateCart('${item.id}', -1)" class="w-7 h-7 bg-white border border-[var(--line)] rounded-lg flex items-center justify-center text-[var(--ink-soft)]">-</button>
+                            <button type="button" onclick="updateCart('${item.id}', -1)" class="w-7 h-7 bg-white border border-[var(--line)] rounded-lg flex items-center justify-center text-[var(--ink-soft)] hover:border-[var(--steel)]">-</button>
                             <span id="qty-${item.id}" class="w-7 text-center qty text-sm text-[var(--ink)]">${qty}</span>
-                            <button type="button" onclick="updateCart('${item.id}', 1)" class="w-7 h-7 bg-white border border-[var(--line)] rounded-lg flex items-center justify-center text-[var(--ink-soft)]">+</button>
+                            <button type="button" onclick="updateCart('${item.id}', 1)" class="w-7 h-7 bg-white border border-[var(--line)] rounded-lg flex items-center justify-center text-[var(--ink-soft)] hover:border-[var(--steel)]">+</button>
                         </div>
                     </div>
                 </div>`;
@@ -567,7 +682,18 @@
             return `<option value="${cat}" ${adminCategoryFilter === cat ? 'selected' : ''}>${cat === 'all' ? '全部分類標籤' : cat}</option>`;
         }).join('');
 
-        const filteredItems = adminCategoryFilter === 'all' ? items : items.filter(i => i.category === adminCategoryFilter);
+        // 依分類與採購狀態篩選
+        let filteredItems = items;
+        if (adminCategoryFilter !== 'all') {
+            filteredItems = filteredItems.filter(i => i.category === adminCategoryFilter);
+        }
+        if (adminProcureFilter === 'purchasing') {
+            filteredItems = filteredItems.filter(i => !!i.isPurchasing);
+        } else if (adminProcureFilter === 'not_purchasing') {
+            filteredItems = filteredItems.filter(i => !i.isPurchasing);
+        }
+
+        const purchasingCount = items.filter(i => !!i.isPurchasing).length;
 
         let expiryAlertHtml = '';
         const expiryAlerts = getExpiryAlerts();
@@ -590,7 +716,7 @@
                 </div>`;
         }
 
-        let tableRows = filteredItems.length === 0 ? `<tr><td colspan="6" class="p-6 text-center text-xs text-[var(--ink-faint)] italic">此分類無品項</td></tr>` : filteredItems.map(item => {
+        let tableRows = filteredItems.length === 0 ? `<tr><td colspan="7" class="p-6 text-center text-xs text-[var(--ink-faint)] italic">無符合條件之品項</td></tr>` : filteredItems.map(item => {
             const isOnlyWarehouse = item.name.includes('僅內倉') || item.category === '防護裝備';
             const tracksOuter = !isOnlyWarehouse && (item.minOuter ?? 0) > 0 && item.outerStock > 0;
             const outerLow = tracksOuter && item.outerStock <= item.minOuter;
@@ -610,7 +736,7 @@
             }
 
             return `
-                <tr class="hover:bg-[var(--paper)] transition">
+                <tr class="hover:bg-[var(--paper)] transition ${item.isPurchasing ? 'bg-indigo-50/20' : ''}">
                     <td class="p-4 font-semibold text-[var(--ink)] text-sm">
                         <div class="flex items-center gap-2 flex-wrap">
                             <button type="button" onclick="openPhotoModal('${item.id}')" class="text-left font-semibold text-[var(--ink)] hover:text-[var(--steel)] underline decoration-dotted underline-offset-4 cursor-pointer" title="點擊檢視照片">
@@ -621,6 +747,20 @@
                         </div>
                     </td>
                     <td class="p-4">${categoryTag(item.category || '未分類')}</td>
+                    <td class="p-4">
+                        <button type="button" onclick="toggleProcureStatus('${item.id}')" class="group flex items-center gap-1.5 transition text-left" title="點擊切換採購狀態">
+                            ${item.isPurchasing ? `
+                                <span class="tag-pill bg-indigo-100 text-indigo-700 border border-indigo-200 hover:bg-indigo-200">
+                                    <i data-lucide="shopping-cart" class="w-3 h-3"></i> 採購中
+                                </span>
+                                ${item.purchasingNote ? `<span class="text-[11px] text-[var(--ink-soft)] truncate max-w-[120px] block" title="${item.purchasingNote}">${item.purchasingNote}</span>` : ''}
+                            ` : `
+                                <span class="tag-pill bg-gray-100 text-[var(--ink-faint)] border border-gray-200 group-hover:border-indigo-300 group-hover:text-indigo-600">
+                                    + 標記採購
+                                </span>
+                            `}
+                        </button>
+                    </td>
                     <td class="p-4 text-center qty text-[var(--ink)] text-sm">${item.warehouseStock} ${item.unit}</td>
                     <td class="p-4 text-center"><span class="qty text-sm px-2.5 py-1 rounded-lg ${item.outerStock === 0 ? 'text-[var(--ink-faint)] bg-gray-100' : 'text-[var(--steel)] bg-[var(--steel)]/10'}">${item.outerStock} ${item.unit}</span></td>
                     <td class="p-4 text-center qty text-[var(--ink)] text-sm">${item.warehouseStock + item.outerStock} ${item.unit}</td>
@@ -633,14 +773,6 @@
                 </tr>`;
         }).join('');
 
-        let logRows = logs.length === 0 ? `<tr><td colspan="4" class="p-6 text-center text-xs text-[var(--ink-faint)] italic">尚無領用或調撥紀錄</td></tr>` : logs.map(l => `
-            <tr class="hover:bg-[var(--paper)] transition">
-                <td class="p-4 font-mono text-[var(--ink-soft)] text-xs">${l.timestamp}</td>
-                <td class="p-4 font-bold text-[var(--ink)] text-sm">${l.userName}</td>
-                <td class="p-4 text-[var(--ink-soft)] text-xs">${l.purpose}</td>
-                <td class="p-4"><div class="flex flex-wrap gap-1.5">${(l.itemsUsed || []).map(u => `<span class="bg-[var(--steel)]/10 text-[var(--steel)] font-medium px-2 py-0.5 rounded-md border border-[var(--steel)]/20 text-xs font-mono">${u.name} × ${u.qty}</span>`).join('')}</div></td>
-            </tr>`).join('');
-
         container.innerHTML = `
             <div class="space-y-6 view-enter">
                 ${expiryAlertHtml}
@@ -649,21 +781,34 @@
                     <div class="p-5 border-b border-[var(--line)] flex flex-wrap justify-between items-center gap-4">
                         <div>
                             <h3 class="font-display font-bold text-[var(--ink)] text-base flex items-center gap-2">
-                                <i data-lucide="warehouse" class="w-5 h-5 text-[var(--steel)]"></i> 耗材庫存與照片管理
+                                <i data-lucide="warehouse" class="w-5 h-5 text-[var(--steel)]"></i> 耗材庫存、採購與照片管理
                             </h3>
-                            <p class="text-xs text-[var(--ink-soft)] mt-0.5">點擊品項名稱文字即可檢視該耗材的圖片與說明。</p>
+                            <p class="text-xs text-[var(--ink-soft)] mt-0.5">點擊品項名稱檢視照片，點擊「採購狀態」可快速切換是否正在採購。</p>
                         </div>
                         <div class="flex gap-2 flex-wrap items-center">
+                            <!-- 採購狀態篩選按鈕 -->
+                            <div class="inline-flex bg-gray-100 p-1 rounded-xl border border-[var(--line)] text-xs font-medium">
+                                <button type="button" onclick="adminProcureFilter='all'; render();" class="px-2.5 py-1 rounded-lg transition ${adminProcureFilter === 'all' ? 'bg-white shadow text-[var(--ink)] font-bold' : 'text-[var(--ink-soft)] hover:text-[var(--ink)]'}">
+                                    全部
+                                </button>
+                                <button type="button" onclick="adminProcureFilter='purchasing'; render();" class="px-2.5 py-1 rounded-lg transition flex items-center gap-1 ${adminProcureFilter === 'purchasing' ? 'bg-indigo-600 shadow text-white font-bold' : 'text-[var(--ink-soft)] hover:text-[var(--ink)]'}">
+                                    <i data-lucide="shopping-cart" class="w-3 h-3"></i> 正在採購中 (${purchasingCount})
+                                </button>
+                            </div>
+
                             <select onchange="adminCategoryFilter=this.value; render();" class="field-input text-xs font-medium px-3 py-2 bg-white">${categoryOptionsHtml}</select>
-                            <button onclick="openAddModal()" class="btn-primary px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5">新增品項</button>
+                            <button onclick="openAddModal()" class="btn-primary px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5">
+                                <i data-lucide="plus" class="w-3.5 h-3.5"></i> 新增品項
+                            </button>
                         </div>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse text-sm">
                             <thead>
                                 <tr class="bg-[var(--paper)] text-[var(--ink-soft)] text-xs font-semibold border-b border-[var(--line)]">
-                                    <th class="p-4">耗材名稱（點擊文字看照片）</th>
+                                    <th class="p-4">耗材名稱（點擊看照片）</th>
                                     <th class="p-4">分類標籤</th>
+                                    <th class="p-4">採購狀態</th>
                                     <th class="p-4 text-center">倉庫庫存 (內倉)</th>
                                     <th class="p-4 text-center">外區現貨 (工作台)</th>
                                     <th class="p-4 text-center">總計庫存</th>
@@ -675,11 +820,110 @@
                     </div>
                 </div>
 
+                <!-- 後台下方專屬入口：查看領取紀錄總表 -->
+                <div class="paper-card p-5 bg-gradient-to-r from-[var(--paper-deep)]/60 via-white to-white border border-[var(--line)] flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 rounded-xl bg-[var(--steel)]/10 text-[var(--steel)] flex items-center justify-center shrink-0">
+                            <i data-lucide="clipboard-list" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-display font-bold text-[var(--ink)] text-sm flex items-center gap-2">
+                                歷史領用登記與調撥歷程
+                                <span class="tag-pill bg-[var(--steel)]/10 text-[var(--steel)]">管理員專用</span>
+                            </h4>
+                            <p class="text-xs text-[var(--ink-soft)] mt-0.5">查看訪客每一次填寫的領用紀錄，以及管理員的雙向庫存調撥明細。</p>
+                        </div>
+                    </div>
+                    <button onclick="switchView('logs')" class="w-full sm:w-auto btn-steel px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 shrink-0 shadow">
+                        <i data-lucide="external-link" class="w-4 h-4"></i> 查看領取紀錄總表
+                    </button>
+                </div>
+            </div>`;
+    }
+
+    function renderLogsView(container) {
+        if (!container) container = document.getElementById('main-content-area');
+
+        const normalizedLogs = (logs || []).map(normalizeLog);
+
+        let filtered = normalizedLogs;
+        if (logTypeFilter === 'checkout') {
+            filtered = filtered.filter(l => !l.purpose.includes('調撥'));
+        } else if (logTypeFilter === 'transfer') {
+            filtered = filtered.filter(l => l.purpose.includes('調撥'));
+        }
+
+        if (logSearchKeyword.trim() !== '') {
+            const kw = logSearchKeyword.trim().toLowerCase();
+            filtered = filtered.filter(l => {
+                const text = `${l.userName} ${l.purpose} ${(l.itemsUsed || []).map(u => u.name).join(' ')} ${l.displayTime}`.toLowerCase();
+                return text.includes(kw);
+            });
+        }
+
+        const logRows = filtered.length === 0 ? `<tr><td colspan="4" class="p-8 text-center text-xs text-[var(--ink-faint)] italic">無符合條件之領用或調撥紀錄</td></tr>` : filtered.map(l => {
+            const isTransfer = l.purpose.includes('調撥');
+            const itemsHtml = (l.itemsUsed || []).map(u => `
+                <span class="inline-flex items-center gap-1 ${isTransfer ? 'bg-amber-50 text-amber-800 border-amber-200' : 'bg-[var(--steel)]/10 text-[var(--steel)] border-[var(--steel)]/20'} font-medium px-2 py-0.5 rounded-md border text-xs font-mono">
+                    ${u.name} <b class="text-[var(--ink)]">× ${u.qty}</b>
+                </span>`).join('');
+
+            return `
+                <tr class="hover:bg-[var(--paper)] transition ${isTransfer ? 'bg-amber-50/15' : ''}">
+                    <td class="p-4 font-mono text-[var(--ink-soft)] text-xs whitespace-nowrap">
+                        ${l.displayTime}
+                    </td>
+                    <td class="p-4 font-bold text-[var(--ink)] text-sm">
+                        <div class="flex items-center gap-1.5">
+                            <i data-lucide="${isTransfer ? 'arrow-left-right' : 'user'}" class="w-3.5 h-3.5 ${isTransfer ? 'text-amber-600' : 'text-[var(--steel)]'} shrink-0"></i>
+                            <span>${l.userName}</span>
+                        </div>
+                    </td>
+                    <td class="p-4 text-xs">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold ${isTransfer ? 'bg-amber-100 text-amber-800' : 'bg-blue-50 text-blue-700'}">
+                            ${l.purpose}
+                        </span>
+                    </td>
+                    <td class="p-4">
+                        <div class="flex flex-wrap gap-1.5">${itemsHtml || '<span class="text-xs text-[var(--ink-faint)] italic">無品項明細</span>'}</div>
+                    </td>
+                </tr>`;
+        }).join('');
+
+        container.innerHTML = `
+            <div class="space-y-6 view-enter">
                 <div class="paper-card overflow-hidden">
-                    <div class="p-5 border-b border-[var(--line)]">
-                        <h3 class="font-display font-bold text-[var(--ink)] text-base flex items-center gap-2">
-                            <i data-lucide="clipboard-list" class="w-5 h-5 text-[var(--steel)]"></i> 領用與調撥異動紀錄總表
-                        </h3>
+                    <div class="p-5 border-b border-[var(--line)] flex flex-wrap justify-between items-center gap-4">
+                        <div class="flex items-center gap-3">
+                            <button onclick="switchView('admin')" class="btn-ghost px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 hover:border-[var(--steel)] transition" title="返回管理員庫存清單">
+                                <i data-lucide="arrow-left" class="w-4 h-4"></i> 返回後台
+                            </button>
+                            <div>
+                                <h3 class="font-display font-bold text-[var(--ink)] text-lg flex items-center gap-2">
+                                    <i data-lucide="clipboard-list" class="w-5 h-5 text-[var(--steel)]"></i> 領用與調撥異動紀錄總表
+                                </h3>
+                                <p class="text-xs text-[var(--ink-soft)] mt-0.5">完整記錄訪客領用與管理員倉庫庫存調撥歷程（共 ${normalizedLogs.length} 筆）。</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-2 flex-wrap items-center">
+                            <!-- 類型篩選 -->
+                            <div class="inline-flex bg-gray-100 p-1 rounded-xl border border-[var(--line)] text-xs font-medium">
+                                <button type="button" onclick="logTypeFilter='all'; render();" class="px-2.5 py-1 rounded-lg transition ${logTypeFilter === 'all' ? 'bg-white shadow text-[var(--ink)] font-bold' : 'text-[var(--ink-soft)] hover:text-[var(--ink)]'}">
+                                    全部
+                                </button>
+                                <button type="button" onclick="logTypeFilter='checkout'; render();" class="px-2.5 py-1 rounded-lg transition ${logTypeFilter === 'checkout' ? 'bg-white shadow text-[var(--steel-deep)] font-bold' : 'text-[var(--ink-soft)] hover:text-[var(--ink)]'}">
+                                    訪客領用
+                                </button>
+                                <button type="button" onclick="logTypeFilter='transfer'; render();" class="px-2.5 py-1 rounded-lg transition ${logTypeFilter === 'transfer' ? 'bg-white shadow text-amber-800 font-bold' : 'text-[var(--ink-soft)] hover:text-[var(--ink)]'}">
+                                    庫存調撥
+                                </button>
+                            </div>
+                            <!-- 關鍵字搜尋 -->
+                            <div class="relative">
+                                <input type="text" placeholder="搜尋人名、品項、用途..." value="${logSearchKeyword}" oninput="logSearchKeyword=this.value; render();" class="field-input text-xs pl-8 pr-3 py-1.5 w-44 sm:w-56">
+                                <i data-lucide="search" class="w-3.5 h-3.5 absolute left-2.5 top-2.5 text-[var(--ink-faint)]"></i>
+                            </div>
+                        </div>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse text-sm">
@@ -688,7 +932,7 @@
                                     <th class="p-4">時間</th>
                                     <th class="p-4">操作人／登記人</th>
                                     <th class="p-4">異動性質／說明</th>
-                                    <th class="p-4">明細</th>
+                                    <th class="p-4">品項數量明細</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-[var(--line)]">${logRows}</tbody>
@@ -742,7 +986,6 @@
             let originalNeeded = needed;
 
             if (visitorMode === 'outer') {
-                // 外區領用：優先從外區批次扣除，不足則從倉庫扣除
                 if (item.batches && item.batches.length > 0) {
                     for (let b of item.batches) {
                         if (b.location === 'outer' && b.qty > 0 && needed > 0) {
@@ -768,7 +1011,6 @@
                     item.warehouseStock -= fromWarehouse;
                 }
             } else {
-                // 倉庫領用：直接從倉庫批次（warehouse）扣除
                 if (item.batches && item.batches.length > 0) {
                     for (let b of item.batches) {
                         if (b.location === 'warehouse' && b.qty > 0 && needed > 0) {
@@ -965,7 +1207,23 @@
                     <div><label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">外區警戒值</label><input type="number" id="edit-min-outer" min="0" value="${item.minOuter ?? 0}" class="w-full px-3 py-2 field-input text-xs font-mono font-bold" required></div>
                     <div><label class="block text-xs font-semibold text-[var(--ink-soft)] mb-1">總量警戒值</label><input type="number" id="edit-min-total" min="0" value="${item.minTotal ?? 0}" class="w-full px-3 py-2 field-input text-xs font-mono font-bold" required></div>
                 </div>
-                <button type="submit" class="w-full btn-steel py-2 rounded-xl text-xs font-semibold">儲存基本資料與照片</button>
+
+                <!-- 編輯採購狀態選項 -->
+                <div class="bg-indigo-50/70 border border-indigo-200 rounded-xl p-3 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <label class="text-xs font-bold text-indigo-900 flex items-center gap-1.5 cursor-pointer">
+                            <input type="checkbox" id="edit-is-purchasing" ${item.isPurchasing ? 'checked' : ''} class="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-indigo-300">
+                            <span>🛒 正在採購中</span>
+                        </label>
+                        <span class="text-[10px] text-indigo-600">後台與訪客端皆會顯示標籤</span>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-medium text-indigo-800 mb-1">採購備註說明（例如廠商、下單日、預計到貨量）</label>
+                        <input type="text" id="edit-purchasing-note" value="${item.purchasingNote || ''}" placeholder="例：已向廠商訂購 5 箱" class="w-full px-3 py-1.5 field-input text-xs bg-white">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full btn-steel py-2.5 rounded-xl text-xs font-semibold">儲存基本資料與採購狀態</button>
             </form>
 
             <div class="space-y-2 my-4">
@@ -1001,9 +1259,13 @@
         item.minOuter = parseInt(document.getElementById('edit-min-outer').value) || 0;
         item.minTotal = parseInt(document.getElementById('edit-min-total').value) || 0;
 
+        // 儲存採購設定
+        item.isPurchasing = document.getElementById('edit-is-purchasing').checked;
+        item.purchasingNote = document.getElementById('edit-purchasing-note').value.trim();
+
         closeModal('edit-modal');
-        showToast('品項資料與照片已更新！');
-        syncToGoogleSheet('UPDATE', item);
+        showToast('品項資料與採購狀態已更新！');
+        syncToGoogleSheet('UPDATE');
         render();
     }
 
@@ -1019,7 +1281,7 @@
         item.batches.push({ id: 'batch-' + Date.now(), qty, expiryDate: expiry, location });
         recomputeItemStock(item);
         showToast('已新增批次紀錄');
-        syncToGoogleSheet('UPDATE', item);
+        syncToGoogleSheet('UPDATE');
         renderEditModalContent();
         render();
     }
@@ -1054,12 +1316,14 @@
             minOuter: parseInt(document.getElementById('add-min-outer').value) || 2,
             minTotal: parseInt(document.getElementById('add-min-total').value) || 5,
             photoUrl: document.getElementById('add-photo-input').value.trim(),
+            isPurchasing: document.getElementById('add-is-purchasing').checked,
+            purchasingNote: document.getElementById('add-purchasing-note').value.trim(),
             batches: []
         };
         items.push(newItem);
         closeModal('add-modal');
         showToast('新增成功！');
-        syncToGoogleSheet('ADD', newItem);
+        syncToGoogleSheet('ADD');
         render();
     }
 
